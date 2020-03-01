@@ -12,6 +12,7 @@ public class Config {
 	private String fileName;
 	private Properties properties;
 
+	private String main;
 	private String version;
 
 	private int window_width;
@@ -36,7 +37,8 @@ public class Config {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
+		this.main = properties.getProperty("main");
 		this.version = properties.getProperty("version");
 
 		this.window_width = Integer.parseInt(properties.getProperty("window_width"));
@@ -53,6 +55,10 @@ public class Config {
 
 	public Properties getProperties() {
 		return properties;
+	}
+	
+	public String getMain() {
+		return main;
 	}
 
 	public String getVersion() {

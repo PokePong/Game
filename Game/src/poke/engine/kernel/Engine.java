@@ -1,14 +1,19 @@
 package poke.engine.kernel;
 
+import org.lwjgl.Version;
+import org.lwjgl.opengl.GL11;
+
 import poke.engine.config.Config;
 
 public class Engine {
 
 	private int fps_cap = 60;
 	private int ups_cap = 120;
+
 	private Timer timer;
 	private Window window;
 	private Config config;
+	private Game game;
 
 	public Engine() {
 		this.timer = new Timer();
@@ -24,13 +29,20 @@ public class Engine {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			destroy();
+			cleanUp();
 		}
 	}
 
 	private void init() {
 		timer.mark();
 		window.create();
+		try {
+			this.game = Engine.class.getClassLoader().loadClass(config.getMain()).asSubclass(Game.class).newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		displayGameSettings();
+		game.init();
 	}
 
 	private void loop() {
@@ -83,11 +95,25 @@ public class Engine {
 	}
 
 	private void update(double delta) {
-
+		game.update(delta);
 	}
 
-	private void destroy() {
+	private void cleanUp() {
+		game.cleanUp();
 		window.destroy();
+	}
+
+	private void displayGameSettings() {
+		System.out.println("======================================================");
+		System.out.println("Name: " + config.getWindow_title());
+		System.out.println("Version: " + config.getVersion());
+		System.out.println(
+				"Window dimension: " + config.getWindow_width() + " x " + config.getWindow_height() + " pixels");
+		System.out.println("Fps_cap: " + config.getFps_cap());
+		System.out.println("Ups_cap: " + config.getUps_cap());
+		System.out.println("Powered by LWJGL: " + Version.getVersion());
+		System.out.println("Running with OpenGL: " + GL11.glGetString(GL11.GL_VERSION));
+		System.out.println("======================================================");
 	}
 
 }
