@@ -1,13 +1,13 @@
-package poke.engine.config;
+package poke.engine.kernel;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-public class Config {
+public class EngineConfig {
 
-	private static Config instance = null;
+	private static EngineConfig instance = null;
 
 	private String fileName;
 	private Properties properties;
@@ -22,7 +22,7 @@ public class Config {
 	private int fps_cap;
 	private int ups_cap;
 
-	public Config(String fileName) {
+	public EngineConfig(String fileName) {
 		instance = this;
 		init(fileName);
 	}
@@ -85,7 +85,7 @@ public class Config {
 		return ups_cap;
 	}
 
-	public static Config getInstance() {
+	public static EngineConfig getInstance() {
 		return instance;
 	}
 

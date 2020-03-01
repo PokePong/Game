@@ -1,4 +1,4 @@
-package poke.engine.kernel;
+package poke.engine.input;
 
 import java.util.ArrayList;
 
@@ -67,7 +67,6 @@ public class Input {
 			public void invoke(long window, int button, int action, int mods) {
 				if (button == 2 && action == GLFW.GLFW_PRESS) {
 					lockedCursorPosition = new Vector2f(cursorPosition);
-					System.out.println("lock");
 					GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
 				}
 

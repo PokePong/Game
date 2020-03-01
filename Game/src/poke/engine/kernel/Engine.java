@@ -3,25 +3,27 @@ package poke.engine.kernel;
 import org.lwjgl.Version;
 import org.lwjgl.opengl.GL11;
 
-import poke.engine.config.Config;
+import poke.engine.time.Timer;
 
 public class Engine {
 
 	private Timer timer;
-	private Config config;
-	private Window window;
-	private Input input;
-	private Game game;
+	private EngineSystem engineSystem;
+	private EngineConfig config;
+
+	private boolean running;
 
 	public Engine() {
 		this.timer = new Timer();
-		this.config = new Config("config.properties");
-		this.input = new Input();
-		this.window = new Window(config.getWindow_width(), config.getWindow_height(), config.getWindow_title(),
-				config.getVersion());
+		this.config = new EngineConfig("config.properties");
+		this.engineSystem = new EngineSystem(this);
 	}
 
 	public void start() {
+		if (running)
+			return;
+		running = true;
+
 		try {
 			init();
 			loop();
@@ -32,17 +34,15 @@ public class Engine {
 		}
 	}
 
+	public void stop() {
+		if (!running)
+			return;
+		running = false;
+	}
+
 	private void init() {
 		timer.mark();
-		window.create();
-		try {
-			this.game = Engine.class.getClassLoader().loadClass(config.getMain()).asSubclass(Game.class).newInstance();
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		input.init(window.getWindow());
-		displayGameSettings();
-		game.init();
+		engineSystem.init();
 	}
 
 	private void loop() {
@@ -54,7 +54,7 @@ public class Engine {
 		int frames = 0;
 		int ticks = 0;
 
-		while (!window.shouldClose()) {
+		while (!engineSystem.getWindow().shouldClose()) {
 			delta = timer.getDelta();
 			accumulator += delta;
 			frameCounter += delta;
@@ -75,6 +75,7 @@ public class Engine {
 			frames++;
 			sync();
 		}
+		stop();
 
 	}
 
@@ -91,30 +92,25 @@ public class Engine {
 	}
 
 	private void render() {
-		window.draw();
+		engineSystem.getRenderingEngine().render();
+		engineSystem.getWindow().draw();
 	}
 
 	private void update(double delta) {
-		game.update(delta);
+		engineSystem.getRenderingEngine().update(delta);
+		engineSystem.getInput().update();
+		engineSystem.getGame().update(delta);
 	}
 
 	private void cleanUp() {
-		game.cleanUp();
-		input.cleanUp();
-		window.destroy();
+		engineSystem.getGame().cleanUp();
+		engineSystem.getRenderingEngine().cleanUp();
+		engineSystem.getInput().cleanUp();
+		engineSystem.getWindow().destroy();
 	}
 
-	private void displayGameSettings() {
-		System.out.println("======================================================");
-		System.out.println("Name: " + config.getWindow_title());
-		System.out.println("Version: " + config.getVersion());
-		System.out.println(
-				"Window dimension: " + config.getWindow_width() + " x " + config.getWindow_height() + " pixels");
-		System.out.println("Fps_cap: " + config.getFps_cap());
-		System.out.println("Ups_cap: " + config.getUps_cap());
-		System.out.println("Powered by LWJGL: " + Version.getVersion());
-		System.out.println("Running with OpenGL: " + GL11.glGetString(GL11.GL_VERSION));
-		System.out.println("======================================================");
+	public EngineConfig getConfig() {
+		return config;
 	}
 
 }

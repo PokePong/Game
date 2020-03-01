@@ -2,6 +2,8 @@ package poke.engine.kernel;
 
 public abstract class Game {
 	
+	//SceneGraphe
+	
 	public Game() {
 		
 	}

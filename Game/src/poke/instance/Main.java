@@ -6,6 +6,7 @@ public class Main extends Game {
 
 	@Override
 	public void init() {
+		System.out.println("Coucou");
 		
 	}
 

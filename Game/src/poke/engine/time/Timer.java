@@ -1,4 +1,4 @@
-package poke.engine.kernel;
+package poke.engine.time;
 
 public class Timer {
 
