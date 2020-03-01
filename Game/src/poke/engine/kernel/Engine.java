@@ -1,4 +1,6 @@
-package poke;
+package poke.engine.kernel;
+
+import poke.engine.config.Config;
 
 public class Engine {
 
@@ -6,10 +8,13 @@ public class Engine {
 	private int ups_cap = 120;
 	private Timer timer;
 	private Window window;
+	private Config config;
 
 	public Engine() {
 		this.timer = new Timer();
-		this.window = Window.getInstance();
+		this.config = new Config("config.properties");
+		this.window = new Window(config.getWindow_width(), config.getWindow_height(), config.getWindow_title(),
+				config.getVersion());
 	}
 
 	public void start() {

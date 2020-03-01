@@ -1,4 +1,4 @@
-package poke;
+package poke.engine.kernel;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
@@ -13,23 +13,15 @@ import org.lwjgl.opengl.GL;
 
 public class Window {
 
-	private static Window instance;
-
 	private int width;
 	private int height;
 	private String title;
 	private long window;
 
-	public Window() {
-		this.width = 1280;
-		this.height = 720;
-		this.title = "Test";
-	}
-
-	public static Window getInstance() {
-		if (instance == null)
-			instance = new Window();
-		return instance;
+	public Window(int width, int height, String title, String version) {
+		this.width = width;
+		this.height = height;
+		this.title = title + " | " + version;
 	}
 
 	public void create() {
@@ -59,7 +51,7 @@ public class Window {
 	}
 
 	public void draw() {
-		glClearColor(0, 0, 0, 1);
+		glClearColor(1, 0, 0, 1);
 		glClearDepth(1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glfwSwapBuffers(window);

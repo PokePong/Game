@@ -1,4 +1,4 @@
-package poke;
+package poke.engine.kernel;
 
 public class Timer {
 
