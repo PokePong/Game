@@ -1,7 +1,7 @@
 package poke.engine.kernel;
 
 public abstract class Game {
-
+	
 	public Game() {
 		
 	}

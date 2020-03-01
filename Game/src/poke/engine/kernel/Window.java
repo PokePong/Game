@@ -68,4 +68,8 @@ public class Window {
 		return glfwWindowShouldClose(window);
 	}
 
+	public long getWindow() {
+		return window;
+	}
+
 }

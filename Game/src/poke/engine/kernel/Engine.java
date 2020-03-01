@@ -7,17 +7,16 @@ import poke.engine.config.Config;
 
 public class Engine {
 
-	private int fps_cap = 60;
-	private int ups_cap = 120;
-
 	private Timer timer;
-	private Window window;
 	private Config config;
+	private Window window;
+	private Input input;
 	private Game game;
 
 	public Engine() {
 		this.timer = new Timer();
 		this.config = new Config("config.properties");
+		this.input = new Input();
 		this.window = new Window(config.getWindow_width(), config.getWindow_height(), config.getWindow_title(),
 				config.getVersion());
 	}
@@ -41,13 +40,14 @@ public class Engine {
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		input.init(window.getWindow());
 		displayGameSettings();
 		game.init();
 	}
 
 	private void loop() {
 		double delta;
-		double interval = 1d / ups_cap;
+		double interval = 1d / config.getUps_cap();
 		double accumulator = 0d;
 		double frameCounter = 0d;
 
@@ -79,7 +79,7 @@ public class Engine {
 	}
 
 	private void sync() {
-		double slot = 1d / fps_cap;
+		double slot = 1d / config.getFps_cap();
 		double endTime = timer.getLastLoopTime() + slot;
 		while (timer.getTime() < endTime) {
 			try {
@@ -100,6 +100,7 @@ public class Engine {
 
 	private void cleanUp() {
 		game.cleanUp();
+		input.cleanUp();
 		window.destroy();
 	}
 
