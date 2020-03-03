@@ -17,7 +17,7 @@ public class EngineSystem {
 		this.engine = engine;
 		this.input = new Input();
 		this.window = new Window(engine);
-		this.renderingEngine = new RenderingEngine();
+		this.renderingEngine = new RenderingEngine(this);
 	}
 
 	public void init() {
@@ -54,8 +54,8 @@ public class EngineSystem {
 		System.out.println("======================================================");
 		System.out.println("Name: " + engine.getConfig().getWindow_title());
 		System.out.println("Version: " + engine.getConfig().getVersion());
-		System.out.println(
-				"Window dimension: " + engine.getConfig().getWindow_width() + " x " + engine.getConfig().getWindow_height() + " pixels");
+		System.out.println("Window dimension: " + engine.getConfig().getWindow_width() + " x "
+				+ engine.getConfig().getWindow_height() + " pixels");
 		System.out.println("Fps_cap: " + engine.getConfig().getFps_cap());
 		System.out.println("Ups_cap: " + engine.getConfig().getUps_cap());
 		System.out.println("Powered by LWJGL: " + Version.getVersion());

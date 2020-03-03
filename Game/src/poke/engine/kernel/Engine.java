@@ -1,7 +1,5 @@
 package poke.engine.kernel;
 
-import org.lwjgl.Version;
-import org.lwjgl.opengl.GL11;
 
 import poke.engine.time.Timer;
 

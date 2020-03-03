@@ -73,9 +73,6 @@ public class Window {
 	}
 
 	public void draw() {
-		glClearColor(1, 0, 0, 1);
-		glClearDepth(1.0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -88,6 +85,10 @@ public class Window {
 
 	public boolean shouldClose() {
 		return glfwWindowShouldClose(window);
+	}
+
+	public float getAspectRatio() {
+		return (float) width / height;
 	}
 
 	public long getWindow() {
