@@ -1,27 +1,24 @@
 package poke.instance;
 
-import poke.engine.core.Game;
-import poke.engine.model.Mesh;
-import poke.engine.utils.MeshGenerator;
+import poke.core.engine.core.Game;
 
 public class Main extends Game {
 
-	public Mesh quad;
-
-	@Override
-	public void init() {
-		this.quad = MeshGenerator.createQuad();
-		super.getMeshes().add(quad);
+	private Quad q;
+	
+	public Main() {
+		q = new Quad();
 	}
 
 	@Override
-	public void update(double delta) {
-
+	public void _init_() {
+		super.getScenegraph().getRoot().addChild(q);
 	}
 
-	@Override
-	public void cleanUp() {
 
+	@Override
+	public void _update_(double delta) {
+		
 	}
 
 }
