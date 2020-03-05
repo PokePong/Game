@@ -29,7 +29,7 @@ public class ResourceLoader {
 		String line;
 		try {
 			while ((line = shaderReader.readLine()) != null) {
-				shaderSource.append(line).append("//\n");
+				shaderSource.append(line).append("\n");
 			}
 			shaderReader.close();
 		} catch (IOException e) {

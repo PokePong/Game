@@ -8,16 +8,20 @@ public class Vertex {
 	public static final int FLOATS = 10;
 	public static final int BYTES = FLOATS * Float.BYTES;
 
-	public Vector3f position;
-	public Vector3f normal;
-	public Vector4f color;
+	private Vector3f position;
+	private Vector3f normal;
+	private Vector4f color;
 
 	public Vertex(Vector3f position) {
-		new Vertex(position, new Vector3f(0, 0, 0), new Vector4f(1, 1, 1, 1));
+		this.position = position;
+		this.normal = new Vector3f(0, 0, 1);
+		this.color = new Vector4f(1, 1, 1, 1);
 	}
 
 	public Vertex(Vector3f position, Vector4f color) {
-		new Vertex(position, new Vector3f(0, 0, 0), color);
+		this.position = position;
+		this.normal = new Vector3f(0, 0, 1f);
+		this.color = color;
 	}
 
 	public Vertex(Vector3f position, Vector3f normal, Vector4f color) {

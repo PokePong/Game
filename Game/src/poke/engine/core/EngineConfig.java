@@ -1,4 +1,4 @@
-package poke.engine.kernel;
+package poke.engine.core;
 
 import java.io.File;
 import java.io.FileReader;

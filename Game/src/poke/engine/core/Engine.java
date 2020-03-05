@@ -1,4 +1,4 @@
-package poke.engine.kernel;
+package poke.engine.core;
 
 
 import poke.engine.time.Timer;

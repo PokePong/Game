@@ -1,4 +1,4 @@
-package poke.engine.kernel;
+package poke.engine.shader;
 
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL32;

@@ -1,6 +1,6 @@
 package poke;
 
-import poke.engine.kernel.Engine;
+import poke.engine.core.Engine;
 
 public class Launcher {
 

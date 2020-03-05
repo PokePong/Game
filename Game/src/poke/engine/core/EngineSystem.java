@@ -1,4 +1,4 @@
-package poke.engine.kernel;
+package poke.engine.core;
 
 import org.lwjgl.Version;
 import org.lwjgl.opengl.GL11;
@@ -17,7 +17,6 @@ public class EngineSystem {
 		this.engine = engine;
 		this.input = new Input();
 		this.window = new Window(engine);
-		this.renderingEngine = new RenderingEngine(this);
 	}
 
 	public void init() {
@@ -28,10 +27,11 @@ public class EngineSystem {
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		this.renderingEngine = new RenderingEngine(this);
 		input.init(window.getWindow());
 		displayGameSettings();
-		renderingEngine.init();
 		game.init();
+		renderingEngine.init();
 	}
 
 	public Window getWindow() {
