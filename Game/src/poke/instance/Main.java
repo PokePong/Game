@@ -4,15 +4,10 @@ import poke.core.engine.core.Game;
 
 public class Main extends Game {
 
-	private Quad q;
 	
-	public Main() {
-		q = new Quad();
-	}
-
 	@Override
 	public void _init_() {
-		super.getScenegraph().getRoot().addChild(q);
+		super.getScenegraph().getStaticRootObject().addChild(new Quad());
 	}
 
 

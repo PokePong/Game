@@ -95,7 +95,7 @@ public class Transform {
 		return ret;
 	}
 
-	public Matrix4f getTransformationMatrix() {
+	public Matrix4f getWorldMatrix() {
 		return getTranslationMatrix().mul(getRotationMatrix().mul(getScalingMatrix()));
 	}
 

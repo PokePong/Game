@@ -4,18 +4,18 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 import org.joml.Matrix4f;
-import org.lwjgl.BufferUtils;
+import org.lwjgl.system.MemoryUtil;
 
 import poke.core.engine.model.Vertex;
 
 public class Buffer {
 
 	public static FloatBuffer createFloatBuffer(int size) {
-		return BufferUtils.createFloatBuffer(size);
+		return MemoryUtil.memAllocFloat(size);
 	}
 
 	public static IntBuffer createIntBuffer(int size) {
-		return BufferUtils.createIntBuffer(size);
+		return MemoryUtil.memAllocInt(size);
 	}
 
 	public static FloatBuffer createFlippedBuffer(float... values) {

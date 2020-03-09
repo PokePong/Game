@@ -2,30 +2,34 @@ package poke.core.engine.scene;
 
 public class Scenegraph extends Node {
 
-	private Node rootObject;
+	private Camera camera;
+	private Node staticRootObject;
 
 	public Scenegraph() {
-		this.rootObject = new Node();
+		this.staticRootObject = new Node();
+		this.camera = new Camera();
 	}
 
 	public void init() {
-		rootObject.init();
+		camera.init();
+		staticRootObject.init();
 	}
 
 	public void udpate(double delta) {
-		rootObject.update(delta);
+		camera.update(delta);
+		staticRootObject.update(delta);
 	}
 
 	public void render() {
-		rootObject.render();
+		staticRootObject.render();
 	}
 
 	public void cleanUp() {
-		rootObject.cleanUp();
+		staticRootObject.cleanUp();
 	}
 
-	public Node getRoot() {
-		return rootObject;
+	public Node getStaticRootObject() {
+		return staticRootObject;
 	}
 
 }

@@ -1,11 +1,9 @@
 package poke.core.engine.core;
 
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.glClear;
-import static org.lwjgl.opengl.GL11.glClearColor;
-
 import poke.core.engine.core.engine.Engine;
 import poke.core.engine.core.engine.EngineSystem;
+import poke.core.gl.config.Default;
+import poke.core.gl.shader.StaticShader;
 
 public class RenderingEngine {
 
@@ -18,7 +16,7 @@ public class RenderingEngine {
 	}
 
 	public void init() {
-
+		Default.init();
 	}
 
 	public void update(double delta) {
@@ -26,10 +24,11 @@ public class RenderingEngine {
 	}
 
 	public void render() {
-		glClearColor(1, 0, 0, 1);
-		glClear(GL_COLOR_BUFFER_BIT);
+		Default.clearScreen();
 
-		game.getScenegraph().getRoot().render();
+		StaticShader.getInstance().bind();
+		game.getScenegraph().getStaticRootObject().render();
+		StaticShader.getInstance().unbind();
 	}
 
 	public void cleanUp() {

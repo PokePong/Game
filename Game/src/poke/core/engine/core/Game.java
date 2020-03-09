@@ -12,12 +12,12 @@ public abstract class Game {
 
 	public void init() {
 		_init_();
-		scenegraph.getRoot().init();
+		scenegraph.init();
 	}
 
 	public void update(double delta) {
 		_update_(delta);
-		scenegraph.getRoot().update(delta);
+		scenegraph.update(delta);
 	}
 	
 	public abstract void _init_();

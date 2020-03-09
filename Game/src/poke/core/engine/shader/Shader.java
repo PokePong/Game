@@ -1,5 +1,6 @@
 package poke.core.engine.shader;
 
+import java.nio.FloatBuffer;
 import java.util.HashMap;
 
 import org.joml.Matrix4f;
@@ -8,9 +9,9 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL32;
+import org.lwjgl.system.MemoryStack;
 
 import poke.core.engine.scene.GameObject;
-import poke.core.engine.utils.Buffer;
 import poke.core.engine.utils.ResourceLoader;
 
 public abstract class Shader {
@@ -100,14 +101,20 @@ public abstract class Shader {
 	}
 
 	public void setUniform(String uniformName, int value) {
+		if (uniforms.get(uniformName) == null)
+			return;
 		GL20.glUniform1i(uniforms.get(uniformName), value);
 	}
 
 	public void setUniform(String uniformName, float value) {
+		if (uniforms.get(uniformName) == null)
+			return;
 		GL20.glUniform1f(uniforms.get(uniformName), value);
 	}
 
 	public void setUniform(String uniformName, boolean value) {
+		if (uniforms.get(uniformName) == null)
+			return;
 		if (value) {
 			GL20.glUniform1i(uniforms.get(uniformName), 1);
 		} else {
@@ -116,19 +123,31 @@ public abstract class Shader {
 	}
 
 	public void setUniform(String uniformName, Vector2f value) {
+		if (uniforms.get(uniformName) == null)
+			return;
 		GL20.glUniform2f(uniforms.get(uniformName), value.x, value.y);
 	}
 
 	public void setUniform(String uniformName, Vector3f value) {
+		if (uniforms.get(uniformName) == null)
+			return;
 		GL20.glUniform3f(uniforms.get(uniformName), value.x, value.y, value.z);
 	}
 
 	public void setUniform(String uniformName, Vector4f value) {
+		if (uniforms.get(uniformName) == null)
+			return;
 		GL20.glUniform4f(uniforms.get(uniformName), value.x, value.y, value.z, value.w);
 	}
 
 	public void setUniform(String uniformName, Matrix4f value) {
-		GL20.glUniformMatrix4fv(uniforms.get(uniformName), true, Buffer.createFlippedBuffer(value));
+		if (uniforms.get(uniformName) == null)
+			return;
+		try (MemoryStack stack = MemoryStack.stackPush()) {
+			FloatBuffer fb = stack.mallocFloat(16);
+			value.get(fb);
+			GL20.glUniformMatrix4fv(uniforms.get(uniformName), false, fb);
+		}
 	}
 
 	public void cleanUp() {

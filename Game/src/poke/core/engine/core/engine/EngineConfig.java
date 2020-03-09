@@ -19,7 +19,11 @@ public class EngineConfig {
 
 	private int fps_cap;
 	private int ups_cap;
-	
+
+	private float z_near;
+	private float z_far;
+	private int fov;
+
 	public EngineConfig(String fileName) {
 		init(fileName);
 	}
@@ -33,7 +37,7 @@ public class EngineConfig {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		this.main = properties.getProperty("main");
 		this.version = properties.getProperty("version");
 
@@ -43,6 +47,10 @@ public class EngineConfig {
 
 		this.fps_cap = Integer.parseInt(properties.getProperty("fps_cap"));
 		this.ups_cap = Integer.parseInt(properties.getProperty("ups_cap"));
+
+		this.z_near = Float.parseFloat(properties.getProperty("z_near"));
+		this.z_far = Float.parseFloat(properties.getProperty("z_far"));
+		this.fov = Integer.parseInt(properties.getProperty("fov"));
 	}
 
 	public String getFileName() {
@@ -52,7 +60,7 @@ public class EngineConfig {
 	public Properties getProperties() {
 		return properties;
 	}
-	
+
 	public String getMain() {
 		return main;
 	}
@@ -79,6 +87,18 @@ public class EngineConfig {
 
 	public int getUps_cap() {
 		return ups_cap;
+	}
+
+	public float getZ_near() {
+		return z_near;
+	}
+
+	public float getZ_far() {
+		return z_far;
+	}
+
+	public int getFov() {
+		return fov;
 	}
 
 }

@@ -13,15 +13,11 @@ public class Vertex {
 	private Vector4f color;
 
 	public Vertex(Vector3f position) {
-		this.position = position;
-		this.normal = new Vector3f(0, 0, 1);
-		this.color = new Vector4f(1, 1, 1, 1);
+		this(position, new Vector3f(0, 0, 1), new Vector4f(1, 1, 1, 1));
 	}
 
 	public Vertex(Vector3f position, Vector4f color) {
-		this.position = position;
-		this.normal = new Vector3f(0, 0, 1f);
-		this.color = color;
+		this(position, new Vector3f(0, 0, 1), color);
 	}
 
 	public Vertex(Vector3f position, Vector3f normal, Vector4f color) {

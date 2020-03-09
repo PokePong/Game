@@ -1,5 +1,9 @@
 package poke.core.engine.core.engine;
 
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
+
 import poke.core.engine.time.Timer;
 
 public class Engine {
@@ -85,6 +89,7 @@ public class Engine {
 	}
 
 	private void sync() {
+		GLFW.glfwSwapInterval(1);
 		double slot = 1d / config.getFps_cap();
 		double endTime = timer.getLastLoopTime() + slot;
 		while (timer.getTime() < endTime) {
