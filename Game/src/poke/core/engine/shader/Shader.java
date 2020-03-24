@@ -8,6 +8,7 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL31;
 import org.lwjgl.opengl.GL32;
 import org.lwjgl.system.MemoryStack;
 
@@ -93,7 +94,18 @@ public abstract class Shader {
 		int uniformLocation = GL20.glGetUniformLocation(programId, uniform);
 		if (uniformLocation == -1) {
 			System.err.println(this.getClass().getName() + " Error: Could not find uniform: " + uniform);
-			throw new IllegalStateException("Failed to find uniform location!");
+			throw new IllegalStateException("[Shader] Failed to find uniform location!");
+		}
+		if (!uniforms.containsKey(uniform)) {
+			uniforms.put(uniform, uniformLocation);
+		}
+	}
+
+	public void addUniformBlock(String uniform) {
+		int uniformLocation = GL31.glGetUniformBlockIndex(programId, uniform);
+		if (uniformLocation == -1) {
+			System.err.println(this.getClass().getName() + " Error: Could not find uniform: " + uniform);
+			throw new IllegalStateException("[Shader] Failed to find uniform block location!");
 		}
 		if (!uniforms.containsKey(uniform)) {
 			uniforms.put(uniform, uniformLocation);
@@ -148,6 +160,12 @@ public abstract class Shader {
 			value.get(fb);
 			GL20.glUniformMatrix4fv(uniforms.get(uniformName), false, fb);
 		}
+	}
+
+	public void setUniformBlock(String uniformName, int bindingIndex) {
+		if (uniforms.get(uniformName) == null)
+			return;
+		GL31.glUniformBlockBinding(programId, uniforms.get(uniformName), bindingIndex);
 	}
 
 	public void cleanUp() {

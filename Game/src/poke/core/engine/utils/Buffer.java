@@ -4,6 +4,8 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
 import poke.core.engine.model.Vertex;
@@ -32,26 +34,21 @@ public class Buffer {
 		return ret;
 	}
 
-	public static FloatBuffer createFlippedBuffer(Matrix4f matrix) {
-		FloatBuffer buffer = createFloatBuffer(4 * 4);
-		buffer.put(matrix.m00());
-		buffer.put(matrix.m01());
-		buffer.put(matrix.m02());
-		buffer.put(matrix.m03());
-		buffer.put(matrix.m10());
-		buffer.put(matrix.m11());
-		buffer.put(matrix.m12());
-		buffer.put(matrix.m13());
-		buffer.put(matrix.m20());
-		buffer.put(matrix.m21());
-		buffer.put(matrix.m22());
-		buffer.put(matrix.m23());
-		buffer.put(matrix.m30());
-		buffer.put(matrix.m31());
-		buffer.put(matrix.m32());
-		buffer.put(matrix.m33());
+	public static FloatBuffer createFlippedBuffer(Vector3f vector) {
+		FloatBuffer buffer = createFloatBuffer(Float.BYTES * 3);
+		buffer.put(vector.x);
+		buffer.put(vector.y);
+		buffer.put(vector.z);
 		buffer.flip();
 		return buffer;
+	}
+
+	public static FloatBuffer createFlippedBuffer(Matrix4f matrix) {
+		try (MemoryStack stack = MemoryStack.stackPush()) {
+			FloatBuffer buffer = stack.mallocFloat(4 * 4);
+			matrix.get(buffer);
+			return buffer;
+		}
 	}
 
 	public static FloatBuffer createFlippedBufferAOS(Vertex[] vertices) {

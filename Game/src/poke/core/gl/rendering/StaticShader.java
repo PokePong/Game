@@ -2,6 +2,7 @@ package poke.core.gl.rendering;
 
 import poke.core.engine.scene.GameObject;
 import poke.core.engine.shader.Shader;
+import poke.core.engine.utils.Constants;
 
 public class StaticShader extends Shader {
 
@@ -20,12 +21,13 @@ public class StaticShader extends Shader {
 		addFragmentShader("static/fragment_static.glsl");
 		validateShader();
 
-		
 		addUniform("m_World");
+		addUniformBlock("Camera");
 	}
 
 	@Override
 	public void updateUniforms(GameObject object) {
+		setUniformBlock("Camera", Constants.CAMERA_UBO_BINDING_INDEX);
 		setUniform("m_World", object.getWorldTransform().getWorldMatrix());
 	}
 

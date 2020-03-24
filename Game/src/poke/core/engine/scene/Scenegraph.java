@@ -3,16 +3,21 @@ package poke.core.engine.scene;
 public class Scenegraph extends Node {
 
 	private Node staticRootObject;
+	private Camera camera;
 
 	public Scenegraph() {
 		this.staticRootObject = new Node();
 	}
 
 	public void init() {
+		if (camera == null)
+			throw new IllegalStateException("[Scenegraph] Camera is null!");
+		camera.init();
 		staticRootObject.init();
 	}
 
-	public void udpate(double delta) {
+	public void update(double delta) {
+		camera.update(delta);
 		staticRootObject.update(delta);
 	}
 
@@ -21,11 +26,16 @@ public class Scenegraph extends Node {
 	}
 
 	public void cleanUp() {
+		camera.cleanUp();
 		staticRootObject.cleanUp();
 	}
 
 	public Node getStaticRootObject() {
 		return staticRootObject;
+	}
+
+	public void setCamera(Camera camera) {
+		this.camera = camera;
 	}
 
 }
