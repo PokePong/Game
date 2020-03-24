@@ -3,7 +3,7 @@ package poke.core.engine.core;
 import poke.core.engine.core.engine.Engine;
 import poke.core.engine.core.engine.EngineSystem;
 import poke.core.gl.config.Default;
-import poke.core.gl.shader.StaticShader;
+import poke.core.gl.rendering.StaticShader;
 
 public class RenderingEngine {
 
@@ -23,7 +23,7 @@ public class RenderingEngine {
 
 	}
 
-	public void render() {
+	public void render() {	
 		Default.clearScreen();
 
 		StaticShader.getInstance().bind();

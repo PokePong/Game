@@ -1,10 +1,10 @@
-package poke.core.gl.renderer;
+package poke.core.gl.rendering;
 
 import poke.core.engine.renderer.Renderer;
 import poke.core.gl.config.Default;
-import poke.core.gl.shader.StaticShader;
 
 public class StaticRenderer extends Renderer {
+
 
 	public StaticRenderer() {
 		super(StaticShader.getInstance(), new Default());
