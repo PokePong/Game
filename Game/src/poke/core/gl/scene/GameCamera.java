@@ -7,7 +7,7 @@ import poke.core.engine.scene.Camera;
 
 public class GameCamera extends Camera {
 
-	private float speed = 0.5f;
+	private float speed = 3f;
 
 	@Override
 	public void _init_() {
@@ -27,6 +27,23 @@ public class GameCamera extends Camera {
 		}
 		if (Input.getInstance().isKeyHolding(GLFW.GLFW_KEY_D)) {
 			move(getRight(), speed * (float) delta);
+		}
+		
+		if (Input.getInstance().isKeyHolding(GLFW.GLFW_KEY_UP)) {
+			rotateY(-speed*20f * (float) delta);
+		}
+		if (Input.getInstance().isKeyHolding(GLFW.GLFW_KEY_DOWN)) {
+			rotateY(speed*20f * (float) delta);
+		}
+		if (Input.getInstance().isKeyHolding(GLFW.GLFW_KEY_LEFT)) {
+			rotateX(-speed*20f * (float) delta);
+		}
+		if (Input.getInstance().isKeyHolding(GLFW.GLFW_KEY_RIGHT)) {
+			rotateX(speed*20f * (float) delta);
+		}
+
+		if (Input.getInstance().isButtonHolding(2)) {
+
 		}
 	}
 

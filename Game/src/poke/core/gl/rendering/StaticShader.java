@@ -17,8 +17,8 @@ public class StaticShader extends Shader {
 	protected StaticShader() {
 		super();
 
-		addVertexShader("static/vertex_static.glsl");
-		addFragmentShader("static/fragment_static.glsl");
+		addVertexShader("static/static_v.glsl");
+		addFragmentShader("static/static_f.glsl");
 		validateShader();
 
 		addUniform("m_World");

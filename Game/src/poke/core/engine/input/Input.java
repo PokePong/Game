@@ -134,6 +134,18 @@ public class Input {
 		return keysHolding.contains(key);
 	}
 
+	public boolean isButtonPushed(int key) {
+		return pushedButtons.contains(key);
+	}
+
+	public boolean isButtonReleased(int key) {
+		return releasedButtons.contains(key);
+	}
+
+	public boolean isButtonHolding(int key) {
+		return buttonsHolding.contains(key);
+	}
+
 	public void cleanUp() {
 		keyboard.free();
 		mouse.free();

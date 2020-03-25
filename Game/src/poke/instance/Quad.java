@@ -11,7 +11,7 @@ public class Quad extends StaticObject {
 	public void _init_() {
 		Mesh m = MeshGenerator.createQuad();
 		super.setVbo(new MeshVBO(m));
-		getWorldTransform().translate(0, 0, -0.5f);
+		getWorldTransform().translate(0, 0, -5.5f);
 	}
 
 	@Override

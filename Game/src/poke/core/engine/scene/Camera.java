@@ -28,7 +28,7 @@ public abstract class Camera {
 
 	private FloatBuffer buffer;
 	private BlockUBO ubo;
-	private final int bufferSize = Float.BYTES * (2 * 4 + (3 * (4 * 4)));
+	private final int bufferSize = Float.BYTES * (3 + 2 * (4 * 4));
 
 	public Camera() {
 		this.position = new Vector3f(0, 0, 0);
@@ -45,16 +45,12 @@ public abstract class Camera {
 		this.buffer = Buffer.createFloatBuffer(bufferSize);
 
 		_init_();
-		setView();
-		setForward();
-		setUp();
-		setRight();
 	}
 
 	public void update(double delta) {
 		_update_(delta);
 
-		
+		setView();
 		setForward();
 		setUp();
 		setRight();
@@ -71,18 +67,24 @@ public abstract class Camera {
 	public abstract void _update_(double delta);
 
 	public void move(Vector3f direction, float amount) {
-		this.position.add(direction.mul(amount));
+		Vector3f ret = position.add(direction.mul(amount));
+		this.position = ret;
+	}
+	
+	public void rotateX(float angle) {
+		Vector3f ret = rotation.add(new Vector3f(0, 1, 0).mul(angle));
+		this.rotation = ret;
+	}
+
+	public void rotateY(float angle) {
+		Vector3f ret = rotation.add(new Vector3f(1, 0, 0).mul(angle));
+		this.rotation = ret;
 	}
 
 	private void updateUBO() {
 		buffer.clear();
-		buffer.put(Buffer.createFlippedBuffer(getPosition()));
-		buffer.put(0);
-		buffer.put(Buffer.createFlippedBuffer(getForward()));
-		buffer.put(0);
 		buffer.put(Buffer.createFlippedBuffer(getProjectionMatrix()));
 		buffer.put(Buffer.createFlippedBuffer(getViewMatrix()));
-		buffer.put(Buffer.createFlippedBuffer(getViewProjectionMatrix()));
 		ubo.updateData(buffer, bufferSize);
 	}
 
