@@ -1,5 +1,6 @@
 package poke.core.gl.scene;
 
+import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
 import poke.core.engine.input.Input;
@@ -7,11 +8,11 @@ import poke.core.engine.scene.Camera;
 
 public class GameCamera extends Camera {
 
-	private float speed = 3f;
+	private float speed = 5f;
 
 	@Override
 	public void _init_() {
-
+		setPosition(new Vector3f(0, 15, 15));
 	}
 
 	@Override
@@ -46,5 +47,4 @@ public class GameCamera extends Camera {
 
 		}
 	}
-
 }

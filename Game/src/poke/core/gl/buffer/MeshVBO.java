@@ -46,34 +46,23 @@ public class MeshVBO implements VBO {
 		this.size = mesh.getIndices().length;
 		FloatBuffer verticesBuffer = null;
 		IntBuffer indicesBuffer = null;
-		try {
-			glBindVertexArray(vaoId);
+		glBindVertexArray(vaoId);
+		verticesBuffer = Buffer.createFlippedBufferAOS(mesh.getVertices());
+		glBindBuffer(GL_ARRAY_BUFFER, vboId);
+		glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
+		MemoryUtil.memFree(verticesBuffer);
 
-			verticesBuffer = Buffer.createFlippedBufferAOS(mesh.getVertices());
-			glBindBuffer(GL_ARRAY_BUFFER, vboId);
-			glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
-			MemoryUtil.memFree(verticesBuffer);
+		indicesBuffer = Buffer.createFlippedBuffer(mesh.getIndices());
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW);
+		MemoryUtil.memFree(indicesBuffer);
 
-			indicesBuffer = Buffer.createFlippedBuffer(mesh.getIndices());
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW);
-			MemoryUtil.memFree(indicesBuffer);
+		glVertexAttribPointer(0, 3, GL_FLOAT, false, Vertex.BYTES, 0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, false, Vertex.BYTES, Float.BYTES * 3);
+		glVertexAttribPointer(2, 4, GL_FLOAT, false, Vertex.BYTES, Float.BYTES * 6);
 
-			glVertexAttribPointer(0, 3, GL_FLOAT, false, Vertex.BYTES, 0);
-			glVertexAttribPointer(1, 3, GL_FLOAT, false, Vertex.BYTES, Float.BYTES * 3);
-			glVertexAttribPointer(2, 4, GL_FLOAT, false, Vertex.BYTES, Float.BYTES * 6);
-
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			glBindVertexArray(0);
-		} finally {
-			if (verticesBuffer != null) {
-				MemoryUtil.memFree(verticesBuffer);
-			}
-			if (indicesBuffer != null) {
-				MemoryUtil.memFree(indicesBuffer);
-			}
-		}
-
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
 	}
 
 	@Override

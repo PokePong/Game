@@ -5,7 +5,6 @@ import poke.core.gl.config.Default;
 
 public class StaticRenderer extends Renderer {
 
-
 	public StaticRenderer() {
 		super(StaticShader.getInstance(), new Default());
 	}

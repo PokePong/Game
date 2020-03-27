@@ -45,6 +45,11 @@ public abstract class Camera {
 		this.buffer = Buffer.createFloatBuffer(bufferSize);
 
 		_init_();
+		setView();
+		setForward();
+		setUp();
+		setRight();
+		updateUBO();
 	}
 
 	public void update(double delta) {
@@ -70,7 +75,7 @@ public abstract class Camera {
 		Vector3f ret = position.add(direction.mul(amount));
 		this.position = ret;
 	}
-	
+
 	public void rotateX(float angle) {
 		Vector3f ret = rotation.add(new Vector3f(0, 1, 0).mul(angle));
 		this.rotation = ret;
@@ -175,6 +180,14 @@ public abstract class Camera {
 
 	public float getFov() {
 		return fov;
+	}
+
+	public void setPosition(Vector3f position) {
+		this.position = position;
+	}
+
+	public void setRotation(Vector3f rotation) {
+		this.rotation = rotation;
 	}
 
 }

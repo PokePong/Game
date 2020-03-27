@@ -34,6 +34,10 @@ public class Scenegraph extends Node {
 		return staticRootObject;
 	}
 
+	public Camera getCamera() {
+		return camera;
+	}
+
 	public void setCamera(Camera camera) {
 		this.camera = camera;
 	}

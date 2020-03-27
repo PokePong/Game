@@ -22,20 +22,20 @@ public abstract class GameObject extends Node {
 
 	@Override
 	public void init() {
+		_init_();
 		for (String key : components.keySet()) {
 			components.get(key).init();
 		}
-		_init_();
 		
 		if (vbo == null)
 			throw new IllegalStateException("[GameObject] VBO null, cannot render this object!");
 	}
 
 	public void update(double delta) {
+		_update_(delta);
 		for (String key : components.keySet()) {
 			components.get(key).update(delta);
 		}
-		_update_(delta);
 	}
 
 	public void render() {

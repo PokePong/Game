@@ -9,7 +9,7 @@ import java.io.IOException;
 public class ResourceLoader {
 
 	public static FileReader loadResource(String fileName) {
-		String path = System.getProperty("user.dir") + "/res/" + fileName;
+		String path = getAbsoluPath(fileName);
 		FileReader fr = null;
 		try {
 			fr = new FileReader(new File(path));
@@ -36,6 +36,10 @@ public class ResourceLoader {
 			e.printStackTrace();
 		}
 		return shaderSource.toString();
+	}
+	
+	public static String getAbsoluPath(String path) {
+		return System.getProperty("user.dir") + "/res/" + path;
 	}
 
 }
