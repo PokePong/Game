@@ -103,15 +103,12 @@ public class Engine {
 	}
 
 	private void update(double delta) {
-		engineSystem.getRenderingEngine().update(delta);
-		engineSystem.getInput().update();
-		engineSystem.getGame().update(delta);
+		engineSystem.update(delta);
 	}
 
 	private void cleanUp() {
-		engineSystem.getGame().cleanUp();
+		engineSystem.cleanUp();
 		engineSystem.getRenderingEngine().cleanUp();
-		engineSystem.getInput().cleanUp();
 		engineSystem.getWindow().destroy();
 	}
 

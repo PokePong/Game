@@ -3,6 +3,10 @@ package poke.core.engine.scene;
 import java.util.HashMap;
 
 import poke.core.engine.gl.VBO;
+import poke.core.engine.renderer.Renderer;
+import poke.core.engine.utils.Constants;
+import poke.core.gl.config.Default;
+import poke.core.gl.rendering.StaticShader;
 
 public abstract class GameObject extends Node {
 
@@ -29,6 +33,12 @@ public abstract class GameObject extends Node {
 		
 		if (vbo == null)
 			throw new IllegalStateException("[GameObject] VBO null, cannot render this object!");
+		
+		if (!getComponents().containsKey(Constants.RENDERER_COMPONENT)) {
+			Renderer renderer = new Renderer(StaticShader.getInstance(), new Default());
+			renderer.setParent(this);
+			getComponents().put(Constants.RENDERER_COMPONENT, renderer);
+		}
 	}
 
 	public void update(double delta) {

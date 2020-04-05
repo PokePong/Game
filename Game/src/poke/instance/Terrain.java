@@ -3,11 +3,11 @@ package poke.instance;
 import org.joml.Vector4f;
 
 import poke.core.engine.model.Mesh;
+import poke.core.engine.scene.GameObject;
 import poke.core.engine.utils.MeshGenerator;
-import poke.core.gl.buffer.MeshVBO;
-import poke.core.gl.rendering.StaticObject;
+import poke.core.gl.buffer.vbo.MeshVBO;
 
-public class Terrain extends StaticObject {
+public class Terrain extends GameObject {
 
 	private Vector4f color;
 	

@@ -1,4 +1,4 @@
-package poke.core.gl.scene;
+package poke.instance;
 
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;

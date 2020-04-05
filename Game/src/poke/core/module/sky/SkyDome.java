@@ -5,9 +5,8 @@ import poke.core.engine.renderer.Renderer;
 import poke.core.engine.scene.GameObject;
 import poke.core.engine.utils.Constants;
 import poke.core.engine.utils.obj.ObjLoader;
-import poke.core.gl.buffer.MeshVBO;
+import poke.core.gl.buffer.vbo.MeshVBO;
 import poke.core.gl.config.CCW;
-import poke.core.gl.config.Default;
 
 public class SkyDome extends GameObject {
 

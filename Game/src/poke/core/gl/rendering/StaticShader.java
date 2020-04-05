@@ -27,8 +27,8 @@ public class StaticShader extends Shader {
 
 	@Override
 	public void updateUniforms(GameObject object) {
-		setUniformBlock("Camera", Constants.CAMERA_UBO_BINDING_INDEX);
 		setUniform("m_World", object.getWorldTransform().getWorldMatrix());
+		setUniformBlock("Camera", Constants.CAMERA_UBO_BINDING_INDEX);
 	}
 
 }

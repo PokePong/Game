@@ -37,6 +37,16 @@ public class EngineSystem {
 		renderingEngine.init();
 	}
 
+	public void update(double delta) {
+		input.update();
+		game.update(delta);
+	}
+
+	public void cleanUp() {
+		game.cleanUp();
+		input.cleanUp();
+	}
+
 	public Window getWindow() {
 		return window;
 	}

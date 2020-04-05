@@ -1,4 +1,4 @@
-package poke.core.gl.buffer;
+package poke.core.gl.buffer.vbo;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
@@ -39,13 +39,13 @@ public class MeshVBO implements VBO {
 		this.vaoId = glGenVertexArrays();
 		this.vboId = glGenBuffers();
 		this.iboId = glGenBuffers();
+		this.size = mesh.getIndices().length;
 		addData(mesh);
 	}
 
 	private void addData(Mesh mesh) {
-		this.size = mesh.getIndices().length;
-		FloatBuffer verticesBuffer = null;
-		IntBuffer indicesBuffer = null;
+		FloatBuffer verticesBuffer;
+		IntBuffer indicesBuffer;
 		glBindVertexArray(vaoId);
 		verticesBuffer = Buffer.createFlippedBufferAOS(mesh.getVertices());
 		glBindBuffer(GL_ARRAY_BUFFER, vboId);

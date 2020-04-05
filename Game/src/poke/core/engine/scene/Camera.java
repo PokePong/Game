@@ -9,7 +9,7 @@ import poke.core.engine.core.Window;
 import poke.core.engine.core.engine.Engine;
 import poke.core.engine.utils.Buffer;
 import poke.core.engine.utils.Constants;
-import poke.core.gl.buffer.BlockUBO;
+import poke.core.gl.buffer.ubo.BlockUBO;
 
 public abstract class Camera {
 
@@ -97,6 +97,12 @@ public abstract class Camera {
 		this.fov = (float) fov;
 		this.z_near = z_near;
 		this.z_far = z_far;
+		Matrix4f ret = new Matrix4f().identity();
+		ret.perspective(fov, aspectRatio, z_near, z_far);
+		this.projectionMatrix = ret;
+	}
+	
+	public void updateProjection(float aspectRatio) {
 		Matrix4f ret = new Matrix4f().identity();
 		ret.perspective(fov, aspectRatio, z_near, z_far);
 		this.projectionMatrix = ret;

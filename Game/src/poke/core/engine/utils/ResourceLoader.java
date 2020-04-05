@@ -1,5 +1,6 @@
 package poke.core.engine.utils;
 
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,7 +38,7 @@ public class ResourceLoader {
 		}
 		return shaderSource.toString();
 	}
-	
+
 	public static String getAbsoluPath(String path) {
 		return System.getProperty("user.dir") + "/res/" + path;
 	}

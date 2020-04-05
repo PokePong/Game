@@ -15,12 +15,16 @@ public class Renderer extends Component {
 	}
 
 	public void render() {
-		config.enable();
 		shader.bind();
+		config.enable();
 		shader.updateUniforms(getParent());
 		getParent().getVbo().render();
-		shader.unbind();
 		config.disable();
+		shader.unbind();
+	}
+	
+	public void cleanUp() {
+		shader.cleanUp();
 	}
 
 	public Shader getShader() {

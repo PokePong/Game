@@ -3,11 +3,16 @@ package poke.core.engine.math;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+import poke.core.engine.core.Window;
+
 public class Transform {
 
 	private Vector3f translation;
 	private Vector3f rotation;
 	private Vector3f scaling;
+
+	private Matrix4f worldMatrix;
+	private Matrix4f orthoMatrix;
 
 	public Transform() {
 		this.translation = new Vector3f(0, 0, 0);
@@ -96,7 +101,21 @@ public class Transform {
 	}
 
 	public Matrix4f getWorldMatrix() {
-		return getTranslationMatrix().mul(getRotationMatrix().mul(getScalingMatrix()));
+		this.worldMatrix = getTranslationMatrix().mul(getRotationMatrix().mul(getScalingMatrix()));
+		return worldMatrix;
+	}
+
+	public void setWorldMatrix(Matrix4f worldMatrix) {
+		this.worldMatrix = worldMatrix;
+	}
+
+	public Matrix4f getOrthoMatrix() {
+		this.orthoMatrix = Window.getOrthoMatrix().mul(worldMatrix);
+		return orthoMatrix;
+	}
+
+	public void setOrthoMatrix(Matrix4f orthoMatrix) {
+		this.orthoMatrix = orthoMatrix;
 	}
 
 	public Vector3f getTranslation() {

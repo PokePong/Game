@@ -30,10 +30,6 @@ public abstract class Component {
 		this.parent = parent;
 	}
 
-	public Transform getLocalTransform() {
-		return parent.getLocalTransform();
-	}
-
 	public Transform getWorldTransform() {
 		return parent.getWorldTransform();
 	}

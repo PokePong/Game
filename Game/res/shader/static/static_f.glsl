@@ -2,7 +2,7 @@
 
 in vec4 pass_Color;
 
-out vec4 out_Color;
+layout(location = 0) out vec4 out_Color;
 
 void main(void) {
 

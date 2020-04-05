@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.joml.Vector3f;
-import org.joml.Vector4f;
 
 import poke.core.engine.model.Mesh;
 import poke.core.engine.model.Vertex;
@@ -58,7 +57,6 @@ public class ObjLoader {
 								int[] index = { Integer.parseInt(st[0]) - 1, Integer.parseInt(st[1]) - 1 };
 								Vertex vertex = new Vertex(positions.get(index[0]));
 								vertex.setNormal(normals.get(index[1]));
-								vertex.setColor(new Vector4f(1, 0, 0, 1));
 								iVertex = count;
 								map.put(token[i], iVertex);
 								vertices.add(vertex);
@@ -75,7 +73,6 @@ public class ObjLoader {
 							} else {
 								int index = Integer.parseInt(token[i]) - 1;
 								Vertex vertex = new Vertex(positions.get(index));
-								vertex.setColor(new Vector4f(1, 0, 0, 1));
 								iVertex = count;
 								map.put(token[i], iVertex);
 								vertices.add(vertex);

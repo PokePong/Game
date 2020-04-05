@@ -1,9 +1,9 @@
 package poke.core.engine.core;
 
+
 import poke.core.engine.core.engine.Engine;
 import poke.core.engine.core.engine.EngineSystem;
 import poke.core.gl.config.Default;
-import poke.core.gl.rendering.StaticShader;
 
 public class RenderingEngine {
 
@@ -17,18 +17,16 @@ public class RenderingEngine {
 
 	public void init() {
 		Default.init();
-	}
-
-	public void update(double delta) {
 
 	}
 
-	public void render() {	
+	public void render() {
 		Default.clearScreen();
 
-		StaticShader.getInstance().bind();
-		game.getScenegraph().getStaticRootObject().render();
-		StaticShader.getInstance().unbind();
+		game.getScenegraph().render();
+
+		game.getGui().render();
+
 	}
 
 	public void cleanUp() {

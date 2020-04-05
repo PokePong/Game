@@ -7,15 +7,15 @@ layout(location = 2) in vec4 in_Color;
 out vec4 pass_Color;
 
 layout (std140) uniform Camera {
-	mat4 m_Projection;
-	mat4 m_View;
+	mat4 c_Projection;
+	mat4 c_View;
 };
 
 uniform mat4 m_World;
 
 void main(void) {
 
-	gl_Position = m_Projection * m_View * m_World * vec4(in_Position, 1.0);
+	gl_Position = c_Projection * c_View * m_World * vec4(in_Position, 1.0);
 	pass_Color = in_Color;
 
 }

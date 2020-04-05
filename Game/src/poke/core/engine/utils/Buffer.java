@@ -5,6 +5,7 @@ import java.nio.IntBuffer;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
@@ -42,6 +43,16 @@ public class Buffer {
 		buffer.flip();
 		return buffer;
 	}
+	
+	public static FloatBuffer createFlippedBuffer(Vector4f vector) {
+		FloatBuffer buffer = createFloatBuffer(Float.BYTES * 4);
+		buffer.put(vector.x);
+		buffer.put(vector.y);
+		buffer.put(vector.z);
+		buffer.put(vector.w);
+		buffer.flip();
+		return buffer;
+	}
 
 	public static FloatBuffer createFlippedBuffer(Matrix4f matrix) {
 		try (MemoryStack stack = MemoryStack.stackPush()) {
@@ -58,6 +69,29 @@ public class Buffer {
 			ret.put(vertices[i].getPosition().y);
 			ret.put(vertices[i].getPosition().z);
 
+			ret.put(vertices[i].getNormal().x);
+			ret.put(vertices[i].getNormal().y);
+			ret.put(vertices[i].getNormal().z);
+
+			ret.put(vertices[i].getColor().x);
+			ret.put(vertices[i].getColor().y);
+			ret.put(vertices[i].getColor().z);
+			ret.put(vertices[i].getColor().w);
+		}
+		ret.flip();
+		return ret;
+	}
+	
+	public static FloatBuffer createFlippedBufferAOSTex(Vertex[] vertices) {
+		FloatBuffer ret = createFloatBuffer(vertices.length * Vertex.FLOATS_TEX);
+		for (int i = 0; i < vertices.length; i++) {
+			ret.put(vertices[i].getPosition().x);
+			ret.put(vertices[i].getPosition().y);
+			ret.put(vertices[i].getPosition().z);
+			
+			ret.put(vertices[i].getTexture().x);
+			ret.put(vertices[i].getTexture().y);
+			
 			ret.put(vertices[i].getNormal().x);
 			ret.put(vertices[i].getNormal().y);
 			ret.put(vertices[i].getNormal().z);

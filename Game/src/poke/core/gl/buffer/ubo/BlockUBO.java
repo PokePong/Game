@@ -1,4 +1,4 @@
-package poke.core.gl.buffer;
+package poke.core.gl.buffer.ubo;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;

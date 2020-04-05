@@ -10,12 +10,10 @@ public class Node {
 
 	private Node parent;
 	private List<Node> children;
-	private Transform localTransform;
 	private Transform worldTransform;
 
 	public Node() {
 		this.children = new ArrayList<Node>();
-		this.localTransform = new Transform();
 		this.worldTransform = new Transform();
 	}
 
@@ -70,14 +68,6 @@ public class Node {
 
 	public void setChildren(List<Node> children) {
 		this.children = children;
-	}
-
-	public Transform getLocalTransform() {
-		return localTransform;
-	}
-
-	public void setLocalTransform(Transform localTransform) {
-		this.localTransform = localTransform;
 	}
 
 	public Transform getWorldTransform() {

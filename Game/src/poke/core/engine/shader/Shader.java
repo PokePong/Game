@@ -10,10 +10,12 @@ import org.joml.Vector4f;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL31;
 import org.lwjgl.opengl.GL32;
+import org.lwjgl.opengl.GL43;
 import org.lwjgl.system.MemoryStack;
 
 import poke.core.engine.scene.GameObject;
 import poke.core.engine.utils.ResourceLoader;
+import poke.core.module.gui.GuiElement;
 
 public abstract class Shader {
 
@@ -21,6 +23,7 @@ public abstract class Shader {
 	private int vertexShaderId;
 	private int geometryShaderId;
 	private int fragmentShaderId;
+	private int computeShaderId;
 
 	private HashMap<String, Integer> uniforms;
 
@@ -80,6 +83,10 @@ public abstract class Shader {
 
 	public void addFragmentShader(String source) {
 		this.fragmentShaderId = addProgram(source, GL20.GL_FRAGMENT_SHADER);
+	}
+
+	public void addComputeShader(String source) {
+		this.computeShaderId = addProgram(source, GL43.GL_COMPUTE_SHADER);
 	}
 
 	public void bind() {
@@ -174,13 +181,19 @@ public abstract class Shader {
 		GL20.glDetachShader(programId, vertexShaderId);
 		GL20.glDetachShader(programId, geometryShaderId);
 		GL20.glDetachShader(programId, fragmentShaderId);
+		GL20.glDetachShader(programId, computeShaderId);
 		GL20.glDeleteShader(vertexShaderId);
 		GL20.glDeleteShader(geometryShaderId);
 		GL20.glDeleteShader(fragmentShaderId);
+		GL20.glDeleteShader(computeShaderId);
 		GL20.glDeleteProgram(programId);
 	}
 
 	public abstract void updateUniforms(GameObject object);
+
+	public void updateUniforms(GuiElement element) {
+
+	}
 
 	public int getProgram() {
 		return programId;
