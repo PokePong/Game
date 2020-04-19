@@ -28,7 +28,7 @@ public abstract class Camera {
 
 	private FloatBuffer buffer;
 	private BlockUBO ubo;
-	private final int bufferSize = Float.BYTES * (3 + 2 * (4 * 4));
+	private final int bufferSize = Float.BYTES * (4 + 2 * (4 * 4));
 
 	public Camera() {
 		this.position = new Vector3f(0, 0, 0);
@@ -88,6 +88,8 @@ public abstract class Camera {
 
 	private void updateUBO() {
 		buffer.clear();
+		buffer.put(Buffer.createFlippedBuffer(position));
+		buffer.put(0);
 		buffer.put(Buffer.createFlippedBuffer(getProjectionMatrix()));
 		buffer.put(Buffer.createFlippedBuffer(getViewMatrix()));
 		ubo.updateData(buffer, bufferSize);

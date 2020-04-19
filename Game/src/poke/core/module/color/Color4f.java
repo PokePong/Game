@@ -1,6 +1,7 @@
 package poke.core.module.color;
 
 import java.nio.FloatBuffer;
+import java.util.Random;
 
 import org.joml.Vector4f;
 
@@ -199,6 +200,13 @@ public class Color4f {
 		copy.a *= value;
 
 		return copy;
+	}
+
+	public static Color4f random() {
+		float r = new Random().nextFloat();
+		float g = new Random().nextFloat();
+		float b = new Random().nextFloat();
+		return new Color4f(r, g, b, 1.0f);
 	}
 
 }

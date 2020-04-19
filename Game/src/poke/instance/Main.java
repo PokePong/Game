@@ -1,24 +1,19 @@
 package poke.instance;
 
 import poke.core.engine.core.Game;
-import poke.core.module.gui.GuiScreen;
-import poke.core.module.gui.element.GuiButton;
-import poke.core.module.sky.SkyDome;
+import poke.core.module.color.Color4f;
 
 public class Main extends Game {
 
+	int numCube = 100;
+	
 	@Override
 	public void _init_() {
+		for(int i = 0; i < numCube; i++) {
+			Cube cube = new Cube(Color4f.random());
+			getScenegraph().getRoot().addChild(cube);
+		}
 		getScenegraph().setCamera(new GameCamera());
-		getScenegraph().setSky(new SkyDome());
-		getScenegraph().getRoot().addChild(new Terrain());
-		getScenegraph().getRoot().addChild(new Cube());
-		getScenegraph().getRoot().addChild(new Lampadaire());
-
-		GuiScreen screen = new GuiScreen();
-		screen.addChild(new GuiButton());
-		screen.setEnable(true);
-		addGuiScreen(screen);
 	}
 
 	@Override

@@ -15,6 +15,10 @@ public class MeshGenerator {
 		vertices[1] = new Vertex(new Vector3f(0.5f, 0.5f, 0));
 		vertices[2] = new Vertex(new Vector3f(-0.5f, -0.5f, 0));
 		vertices[3] = new Vertex(new Vector3f(0.5f, -0.5f, 0));
+		vertices[0].setNormal(new Vector3f(0, 1, 1));
+		vertices[1].setNormal(new Vector3f(0, 1, 1));
+		vertices[2].setNormal(new Vector3f(0, 1, 1));
+		vertices[3].setNormal(new Vector3f(0, 1, 1));
 		return new Mesh(vertices, indices);
 
 	}

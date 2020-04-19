@@ -26,17 +26,17 @@ public class PointVBO implements VBO {
 	private int vboId;
 	private int size;
 
-	public PointVBO(Vector3f position) {
+	public PointVBO() {
 		this.vaoId = glGenVertexArrays();
 		this.vboId = glGenBuffers();
 		this.size = 3;
-		addData(position);
+		addData();
 	}
 
-	private void addData(Vector3f position) {
+	private void addData() {
 		FloatBuffer buffer;
 		glBindVertexArray(vaoId);
-		buffer = Buffer.createFlippedBuffer(position);
+		buffer = Buffer.createFlippedBuffer(new Vector3f(0));
 		glBindBuffer(GL_ARRAY_BUFFER, vboId);
 		glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
 		MemoryUtil.memFree(buffer);

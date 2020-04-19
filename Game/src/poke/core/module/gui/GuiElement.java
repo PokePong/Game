@@ -8,7 +8,7 @@ import poke.core.engine.math.Transform;
 import poke.core.engine.model.Texture2D;
 import poke.core.module.color.Color4f;
 
-public abstract class GuiElement {
+public class GuiElement {
 
 	private GuiScreen parent;
 	private Transform worldTransform;
@@ -26,12 +26,10 @@ public abstract class GuiElement {
 	}
 
 	public void init() {
-		_init_();
 		updateConstraints();
 	}
 
 	public void update(double delta) {
-		_update_(delta);
 		updateConstraints();
 	}
 
@@ -55,10 +53,6 @@ public abstract class GuiElement {
 		ret.scale(constraint.getWidth(), constraint.getHeight(), 0);
 		this.worldTransform.setWorldMatrix(ret);
 	}
-
-	public abstract void _init_();
-
-	public abstract void _update_(double delta);
 
 	public GuiScreen getParent() {
 		return parent;

@@ -94,7 +94,7 @@ public class ObjLoader {
 		Vertex[] verticesArray = new Vertex[vertices.size()];
 		vertices.toArray(verticesArray);
 		int[] indicesArray = indices.stream().mapToInt(i -> i).toArray();
-		long delta = (System.nanoTime() - time)/1000000;
+		long delta = (System.nanoTime() - time) / 1000000;
 		System.out.println("[OBJ] Loading " + fileName + ": " + delta + "ms");
 		return new Mesh(verticesArray, indicesArray);
 	}

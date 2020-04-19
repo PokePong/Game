@@ -1,6 +1,6 @@
 package poke.core.gl.config;
 
-import static org.lwjgl.opengl.GL11.GL_BACK;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
 import static org.lwjgl.opengl.GL11.GL_CW;
@@ -11,7 +11,6 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glClearDepth;
 import static org.lwjgl.opengl.GL11.glCullFace;
 import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER_SRGB;
 
 
@@ -39,6 +38,7 @@ public class Default implements RenderConfig {
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_FRAMEBUFFER_SRGB);
+		glEnable(32925);
 	}
 
 	public static void clearScreen() {

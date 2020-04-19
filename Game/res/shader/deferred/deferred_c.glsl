@@ -1,24 +1,34 @@
-#version 430
+#version 430 core
 
 layout (local_size_x = 16, local_size_y = 16) in;
 
-layout (rgba32f, binding = 0) uniform image2D img_output;
+layout (rgba32f, binding = 0) uniform readonly image2D img_position;
+layout (rgba16f, binding = 1) uniform readonly image2D img_albedo;
+layout (rgba32f, binding = 2) uniform readonly image2D img_normal;
+layout (rgba16f, binding = 5) uniform writeonly image2D img_output;
+
+layout (std140) uniform Camera {
+	vec3 c_Position;
+	mat4 c_Projection;
+	mat4 c_View;
+};
 
 void main() {
-	// Aucun tableau de donnée n'étant passé au moment de la création de la texture,
-	// c'est le compute shader qui va dessiner à l'intérieur de l'image associé
-	// à la texture.
 
-	// gl_LocalInvocationID.xy * gl_WorkGroupID.xy == gl_GlobalInvocationID
-	ivec2 coords = ivec2(gl_GlobalInvocationID);
+	ivec2 coords = ivec2(gl_GlobalInvocationID.x, gl_GlobalInvocationID.y);
 
-	// Pour mettre en evidence. Les groupes de travail locaux on dessine un damier.
-	vec4 pixel;
-	if (((gl_WorkGroupID.x & 1u) != 1u) != ((gl_WorkGroupID.y & 1u) == 1u)) {
-		pixel = vec4(1.0, .5, .0, 1.0);
-	} else {
-		pixel = vec4(.0, .5, 1.0, 1.0);
-	}
+	vec3 position = imageLoad(img_position, coords).rgb;
+	vec3 albedo = imageLoad(img_albedo, coords).rgb;
+	vec3 normal = imageLoad(img_normal, coords).rgb;
+
+	vec3 lighting = albedo * 0.1f;
+	vec3 viewDir = normalize(c_Position - position);
+	vec3 lightDir = normalize(vec3(0, 0, 0) - position);
+	vec3 diffuse = max(dot(normal, lightDir), 0.1) * albedo * vec3(1);
+	lighting += diffuse;
+
+	vec4 pixel = vec4(lighting, 1);
 
 	imageStore(img_output, coords, pixel);
+
 }
