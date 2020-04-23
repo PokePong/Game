@@ -25,11 +25,12 @@ public class DeferredRendering {
 		this.fbo = new FBO();
 		this.gbuffer = new GBuffer(Window.width, Window.height);
 		this.scene = new Texture2D(Window.width, Window.height);
-		this.shader = DeferredShader.getInstance();
 		this.config = new DeferredConfig();
 	}
 
 	public void init() {
+		this.shader = DeferredShader.getInstance();
+		
 		scene.bind();
 		scene.allocateImage2D(GL_RGBA16F, GL11.GL_RGBA);
 		scene.noFilter();

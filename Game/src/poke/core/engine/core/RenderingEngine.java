@@ -54,7 +54,7 @@ public class RenderingEngine {
 		
 		deferredRendering.render();
 		
-		//game.getScenegraph().render();
+		game.getScenegraph().render();
 		
 		game.getGui().render();
 

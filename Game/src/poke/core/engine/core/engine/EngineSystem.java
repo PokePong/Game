@@ -30,10 +30,11 @@ public class EngineSystem {
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		this.renderingEngine = new RenderingEngine();
 		input.init(window.getWindow());
 		displayGameSettings();
 		game.init();
+		
+		this.renderingEngine = new RenderingEngine();
 		renderingEngine.init();
 	}
 
