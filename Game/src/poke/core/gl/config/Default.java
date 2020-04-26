@@ -38,7 +38,7 @@ public class Default implements RenderConfig {
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_FRAMEBUFFER_SRGB);
-		glEnable(32925);
+		//glEnable(32925);
 	}
 
 	public static void clearScreen() {

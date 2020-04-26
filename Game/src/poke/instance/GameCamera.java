@@ -8,11 +8,24 @@ import poke.core.engine.scene.Camera;
 
 public class GameCamera extends Camera {
 
-	private float speed = 5f;
-
+	private float speed = 20f;
+	
+	private static GameCamera instance;
+	
+	public static GameCamera getInstance() {
+		if(instance == null) 
+			instance = new GameCamera() ;
+		return instance;
+	}
+	
+	public GameCamera() {
+		super();
+		instance = this;
+	}
+	
 	@Override
 	public void _init_() {
-		setPosition(new Vector3f(0, 15, 15));
+		setPosition(new Vector3f(0, 0, 150f));
 	}
 
 	@Override

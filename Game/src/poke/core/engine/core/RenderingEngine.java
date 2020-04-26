@@ -1,6 +1,5 @@
 package poke.core.engine.core;
 
-
 import poke.core.engine.core.engine.Engine;
 import poke.core.engine.core.engine.EngineSystem;
 import poke.core.gl.config.Default;
@@ -10,24 +9,26 @@ import poke.core.module.gui.GuiElement;
 import poke.core.module.gui.GuiScreen;
 import poke.core.module.gui.constraint.CenterConstraint;
 import poke.core.module.gui.constraint.RelativeConstraint;
+import poke.instance.terrain.Planet;
 
 public class RenderingEngine {
 
 	private EngineSystem system;
 	private Game game;
 	private DeferredRendering deferredRendering;
-
+	private Planet planet;
 
 	public RenderingEngine() {
 		this.system = Engine.getInstance().getEngineSystem();
 		this.game = system.getGame();
 		this.deferredRendering = new DeferredRendering();
+		this.planet = new Planet();
 	}
 
 	public void init() {
 		Default.init();
 		deferredRendering.init();
-
+		planet.init();
 
 		GuiScreen screen = new GuiScreen();
 		GuiElement element = new GuiElement();
@@ -47,15 +48,16 @@ public class RenderingEngine {
 	public void render() {
 		Default.clearScreen();
 
-		deferredRendering.bind();
-		Default.clearScreen();
-		game.getScenegraph().render();
-		deferredRendering.unbind();
+		//deferredRendering.bind();
+		//Default.clearScreen();
+		//game.getScenegraph().render();
+		//deferredRendering.unbind();
+
+		//deferredRendering.render();
 		
-		deferredRendering.render();
-		
-		game.getScenegraph().render();
-		
+		planet.update(0);
+		planet.render();
+
 		game.getGui().render();
 
 	}

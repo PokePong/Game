@@ -10,6 +10,7 @@ import org.joml.Vector4f;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL31;
 import org.lwjgl.opengl.GL32;
+import org.lwjgl.opengl.GL40;
 import org.lwjgl.opengl.GL43;
 import org.lwjgl.system.MemoryStack;
 
@@ -21,6 +22,8 @@ public abstract class Shader {
 
 	private int programId;
 	private int vertexShaderId;
+	private int tessellationControlShaderId;
+	private int tessellationEvaluationShaderId;
 	private int geometryShaderId;
 	private int fragmentShaderId;
 	private int computeShaderId;
@@ -83,6 +86,14 @@ public abstract class Shader {
 
 	public void addFragmentShader(String source) {
 		this.fragmentShaderId = addProgram(source, GL20.GL_FRAGMENT_SHADER);
+	}
+
+	public void addTessellationControlShader(String source) {
+		this.tessellationControlShaderId = addProgram(source, GL40.GL_TESS_CONTROL_SHADER);
+	}
+
+	public void addTesselationEvaludationShader(String source) {
+		this.tessellationEvaluationShaderId = addProgram(source, GL40.GL_TESS_EVALUATION_SHADER);
 	}
 
 	public void addComputeShader(String source) {
@@ -179,10 +190,14 @@ public abstract class Shader {
 		unbind();
 		uniforms.clear();
 		GL20.glDetachShader(programId, vertexShaderId);
+		GL20.glDetachShader(programId, tessellationControlShaderId);
+		GL20.glDetachShader(programId, tessellationEvaluationShaderId);
 		GL20.glDetachShader(programId, geometryShaderId);
 		GL20.glDetachShader(programId, fragmentShaderId);
 		GL20.glDetachShader(programId, computeShaderId);
 		GL20.glDeleteShader(vertexShaderId);
+		GL20.glDeleteShader(tessellationControlShaderId);
+		GL20.glDeleteShader(tessellationEvaluationShaderId);
 		GL20.glDeleteShader(geometryShaderId);
 		GL20.glDeleteShader(fragmentShaderId);
 		GL20.glDeleteShader(computeShaderId);

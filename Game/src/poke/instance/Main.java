@@ -5,7 +5,7 @@ import poke.core.module.color.Color4f;
 
 public class Main extends Game {
 
-	int numCube = 100;
+	int numCube = 20;
 
 	@Override
 	public void _init_() {

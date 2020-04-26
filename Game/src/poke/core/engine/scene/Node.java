@@ -11,10 +11,12 @@ public class Node {
 	private Node parent;
 	private List<Node> children;
 	private Transform worldTransform;
+	private Transform localTransform;
 
 	public Node() {
 		this.children = new ArrayList<Node>();
 		this.worldTransform = new Transform();
+		this.localTransform = new Transform();
 	}
 
 	public void addChild(Node child) {
@@ -30,26 +32,25 @@ public class Node {
 	}
 
 	public void init() {
-		for(Node child : children) {
+		for (Node child : children) {
 			child.init();
 		}
 	}
-	
+
 	public void update(double delta) {
-		for(Node child : children) {
+		for (Node child : children) {
 			child.update(delta);
 		}
 	}
 
 	public void render() {
-		for(Node child : children) {
+		for (Node child : children) {
 			child.render();
 		}
 	}
 
-
 	public void cleanUp() {
-		for(Node child : children) {
+		for (Node child : children) {
 			child.cleanUp();
 		}
 	}
@@ -76,6 +77,14 @@ public class Node {
 
 	public void setWorldTransform(Transform worldTransform) {
 		this.worldTransform = worldTransform;
+	}
+
+	public Transform getLocalTransform() {
+		return localTransform;
+	}
+
+	public void setLocalTransform(Transform localTransform) {
+		this.localTransform = localTransform;
 	}
 
 }
