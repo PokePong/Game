@@ -1,5 +1,6 @@
 package poke.instance;
 
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
@@ -9,23 +10,25 @@ import poke.core.engine.scene.Camera;
 public class GameCamera extends Camera {
 
 	private float speed = 20f;
-	
+	private float speedRotate = 5f;
+	private float mouseSensibility = 3f;
+
 	private static GameCamera instance;
-	
+
 	public static GameCamera getInstance() {
-		if(instance == null) 
-			instance = new GameCamera() ;
+		if (instance == null)
+			instance = new GameCamera();
 		return instance;
 	}
-	
+
 	public GameCamera() {
 		super();
 		instance = this;
 	}
-	
+
 	@Override
 	public void _init_() {
-		setPosition(new Vector3f(0, 0, 150f));
+		setPosition(new Vector3f(0, 0, 650f));
 	}
 
 	@Override
@@ -42,22 +45,15 @@ public class GameCamera extends Camera {
 		if (Input.getInstance().isKeyHolding(GLFW.GLFW_KEY_D)) {
 			move(getRight(), speed * (float) delta);
 		}
-		
-		if (Input.getInstance().isKeyHolding(GLFW.GLFW_KEY_UP)) {
-			rotateY(-speed*20f * (float) delta);
-		}
-		if (Input.getInstance().isKeyHolding(GLFW.GLFW_KEY_DOWN)) {
-			rotateY(speed*20f * (float) delta);
-		}
-		if (Input.getInstance().isKeyHolding(GLFW.GLFW_KEY_LEFT)) {
-			rotateX(-speed*20f * (float) delta);
-		}
-		if (Input.getInstance().isKeyHolding(GLFW.GLFW_KEY_RIGHT)) {
-			rotateX(speed*20f * (float) delta);
-		}
+
 
 		if (Input.getInstance().isButtonHolding(2)) {
-
+			Vector2f rot = Input.getInstance().getDisplVec();
+			float angX = (rot.x * speedRotate * mouseSensibility * (float) delta);
+			float angY = (rot.y * speedRotate * mouseSensibility * (float) delta);
+			rotateX(angX);
+			rotateY(angY);
+			
 		}
 	}
 }

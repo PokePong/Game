@@ -1,12 +1,15 @@
 package poke.core.engine.core.engine;
 
+import org.lwjgl.glfw.GLFW;
+
 import poke.core.engine.time.Timer;
 
-public class Engine {
+public class Engine implements Runnable {
 
 	private static Engine instance;
 
 	private Timer timer;
+	private Thread thread;
 	private EngineSystem engineSystem;
 	private EngineConfig config;
 	private boolean running;
@@ -19,19 +22,20 @@ public class Engine {
 
 	public Engine() {
 		instance = this;
+		this.thread = new Thread(this);
 		this.timer = new Timer();
 		this.config = new EngineConfig("config.properties");
 		this.engineSystem = new EngineSystem();
 	}
-
+	
 	public void start() {
 		if (running)
 			return;
-		running = true;
-
+		this.running = true;
+		
 		try {
 			init();
-			loop();
+			thread.run();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -50,7 +54,8 @@ public class Engine {
 		engineSystem.init();
 	}
 
-	private void loop() {
+	@Override
+	public void run() {
 		double delta;
 		double interval = 1d / config.getUps_cap();
 		double accumulator = 0d;
@@ -85,8 +90,8 @@ public class Engine {
 	}
 
 	private void sync() {
-		//GLFW.glfwSwapInterval(1);
-		double slot = 1d / config.getFps_cap();
+		GLFW.glfwSwapInterval(1);
+		/*double slot = 1d / config.getFps_cap();
 		double endTime = timer.getLastLoopTime() + slot;
 		while (timer.getTime() < endTime) {
 			try {
@@ -94,7 +99,7 @@ public class Engine {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 
 	private void render() {

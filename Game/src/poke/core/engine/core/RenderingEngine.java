@@ -9,7 +9,7 @@ import poke.core.module.gui.GuiElement;
 import poke.core.module.gui.GuiScreen;
 import poke.core.module.gui.constraint.CenterConstraint;
 import poke.core.module.gui.constraint.RelativeConstraint;
-import poke.instance.terrain.Planet;
+import poke.instance.planet.Planet;
 
 public class RenderingEngine {
 
@@ -22,7 +22,7 @@ public class RenderingEngine {
 		this.system = Engine.getInstance().getEngineSystem();
 		this.game = system.getGame();
 		this.deferredRendering = new DeferredRendering();
-		this.planet = new Planet();
+		this.planet = new Planet(10f);
 	}
 
 	public void init() {
@@ -54,16 +54,19 @@ public class RenderingEngine {
 		//deferredRendering.unbind();
 
 		//deferredRendering.render();
+		game.getScenegraph().render();
 		
-		planet.update(0);
+		planet.update(0f);
 		planet.render();
+		
 
-		game.getGui().render();
+		//game.getGui().render();
 
 	}
 
 	public void cleanUp() {
 		deferredRendering.cleanUp();
+		planet.cleanUp();
 	}
 
 }

@@ -37,6 +37,7 @@ public abstract class GameObject extends Node {
 		if (!getComponents().containsKey(Constants.RENDERER_COMPONENT)) {
 			Renderer renderer = new Renderer(StaticShader.getInstance(), new Default());
 			renderer.setParent(this);
+			renderer.init();
 			getComponents().put(Constants.RENDERER_COMPONENT, renderer);
 		}
 	}

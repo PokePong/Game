@@ -1,4 +1,4 @@
-#version 330 core
+#version 430 core
 
 in vec2 pass_Texture;
 in vec4 pass_Color;

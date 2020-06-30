@@ -29,7 +29,10 @@ public class Input {
 	private float scrollOffSet;
 
 	private Vector2f cursorPosition;
+	private Vector2f displVec;
 	private Vector2f lockedCursorPosition;
+
+	private boolean cursorLocked;
 
 	public static Input getInstance() {
 		if (instance == null)
@@ -48,7 +51,10 @@ public class Input {
 		this.releasedButtons = new ArrayList<Integer>();
 
 		this.cursorPosition = new Vector2f();
+		this.displVec = new Vector2f();
 		this.lockedCursorPosition = new Vector2f();
+
+		this.cursorLocked = false;
 	}
 
 	public void init(long window) {
@@ -76,11 +82,14 @@ public class Input {
 			public void invoke(long window, int button, int action, int mods) {
 				if (button == 2 && action == GLFW.GLFW_PRESS) {
 					lockedCursorPosition = new Vector2f(cursorPosition);
+					setCursorLocked(true);
 					GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
 				}
 
 				if (button == 2 && action == GLFW.GLFW_RELEASE) {
 					GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
+					setCursorLocked(false);
+					setCursorPosition(lockedCursorPosition, window);
 				}
 				if (action == GLFW.GLFW_PRESS) {
 					if (!pushedButtons.contains(button)) {
@@ -99,8 +108,27 @@ public class Input {
 
 			@Override
 			public void invoke(long window, double x, double y) {
-				cursorPosition.x = (float) x;
-				cursorPosition.y = (float) y;
+
+				if (isCursorLocked()) {
+					double dx = x - lockedCursorPosition.x;
+					double dy = y - lockedCursorPosition.y;
+
+					boolean rotateX = dx != 0;
+					boolean rotateY = dy != 0;
+					if (rotateX) {
+						displVec.x = (float) dx;
+					}
+					if (rotateY) {
+						displVec.y = (float) dy;
+					}
+
+					setCursorPosition(lockedCursorPosition, window);
+				} else {
+					displVec.x = 0;
+					displVec.y = 0;
+					cursorPosition.x = (float) x;
+					cursorPosition.y = (float) y;
+				}
 			}
 		}));
 
@@ -165,9 +193,17 @@ public class Input {
 		return cursorPosition;
 	}
 
+	public void setLockedCursorPosition(Vector2f lockedCursorPosition) {
+		this.lockedCursorPosition = lockedCursorPosition;
+	}
+
 	public void setCursorPosition(Vector2f cursorPosition, long window) {
 		this.cursorPosition = cursorPosition;
 		GLFW.glfwSetCursorPos(window, cursorPosition.x, cursorPosition.y);
+	}
+
+	public Vector2f getDisplVec() {
+		return displVec;
 	}
 
 	public ArrayList<Integer> getPushedKeys() {
@@ -196,6 +232,14 @@ public class Input {
 
 	public Vector2f getLockedCursorPosition() {
 		return lockedCursorPosition;
+	}
+
+	public boolean isCursorLocked() {
+		return cursorLocked;
+	}
+
+	public void setCursorLocked(boolean cursorLocked) {
+		this.cursorLocked = cursorLocked;
 	}
 
 }

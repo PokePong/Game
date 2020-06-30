@@ -103,7 +103,7 @@ public abstract class Camera {
 		ret.perspective(fov, aspectRatio, z_near, z_far);
 		this.projectionMatrix = ret;
 	}
-	
+
 	public void updateProjection(float aspectRatio) {
 		Matrix4f ret = new Matrix4f().identity();
 		ret.perspective(fov, aspectRatio, z_near, z_far);

@@ -46,7 +46,9 @@ public class MeshVBO implements VBO {
 	private void addData(Mesh mesh) {
 		FloatBuffer verticesBuffer;
 		IntBuffer indicesBuffer;
+		
 		glBindVertexArray(vaoId);
+		
 		verticesBuffer = Buffer.createFlippedBufferAOS(mesh.getVertices());
 		glBindBuffer(GL_ARRAY_BUFFER, vboId);
 		glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
@@ -57,6 +59,7 @@ public class MeshVBO implements VBO {
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW);
 		MemoryUtil.memFree(indicesBuffer);
 
+		glBindBuffer(GL_ARRAY_BUFFER, vboId);
 		glVertexAttribPointer(0, 3, GL_FLOAT, false, Vertex.BYTES, 0);
 		glVertexAttribPointer(1, 3, GL_FLOAT, false, Vertex.BYTES, Float.BYTES * 3);
 		glVertexAttribPointer(2, 4, GL_FLOAT, false, Vertex.BYTES, Float.BYTES * 6);

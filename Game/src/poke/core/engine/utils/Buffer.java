@@ -11,6 +11,8 @@ import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
 import poke.core.engine.model.Vertex;
+import poke.instance.planet.patch.PatchInstance;
+import poke.instance.planet.patch.PatchVertex;
 
 public class Buffer {
 
@@ -106,11 +108,56 @@ public class Buffer {
 		return ret;
 	}
 
+	public static FloatBuffer createFlippedBufferAOSPatchInstance(PatchInstance[] instances) {
+		FloatBuffer ret = createFloatBuffer(instances.length * PatchInstance.FLOATS);
+		for (int i = 0; i < instances.length; i++) {
+			ret.put(instances[i].getA().x);
+			ret.put(instances[i].getA().y);
+			ret.put(instances[i].getA().z);
+
+			ret.put(instances[i].getR().x);
+			ret.put(instances[i].getR().y);
+			ret.put(instances[i].getR().z);
+
+			ret.put(instances[i].getS().x);
+			ret.put(instances[i].getS().y);
+			ret.put(instances[i].getS().z);
+
+			ret.put((float) instances[i].getLevel());
+		}
+		ret.flip();
+		return ret;
+	}
+
+	public static FloatBuffer createFlippedBufferAOSPatchVertex(PatchVertex[] vertices) {
+		FloatBuffer ret = createFloatBuffer(vertices.length * PatchVertex.FLOATS);
+		for (int i = 0; i < vertices.length; i++) {
+			ret.put(vertices[i].getPosition().x);
+			ret.put(vertices[i].getPosition().y);
+
+			ret.put(vertices[i].getMorphism().x);
+			ret.put(vertices[i].getMorphism().y);
+		}
+		ret.flip();
+		return ret;
+	}
+
 	public static FloatBuffer createFlippedBuffer(Vector2f[] vertices) {
 		FloatBuffer ret = createFloatBuffer(Float.BYTES * vertices.length * 2);
 		for (int i = 0; i < vertices.length; i++) {
 			ret.put(vertices[i].x);
 			ret.put(vertices[i].y);
+		}
+		ret.flip();
+		return ret;
+	}
+
+	public static FloatBuffer createFlippedBuffer(Vector3f[] vertices) {
+		FloatBuffer ret = createFloatBuffer(Float.BYTES * vertices.length * 3);
+		for (int i = 0; i < vertices.length; i++) {
+			ret.put(vertices[i].x);
+			ret.put(vertices[i].y);
+			ret.put(vertices[i].z);
 		}
 		ret.flip();
 		return ret;
