@@ -56,5 +56,21 @@ public class GBuffer {
 	public Texture2D getDepth() {
 		return depth;
 	}
+	
+	public void resize(int width, int height) {
+		position.bind();
+		position.resize(width, height);
+		
+		albedo.bind();
+		albedo.resize(width, height);
+		
+		normal.bind();
+		normal.resize(width, height);
+		
+		depth.bind();
+		depth.resize(width, height);
+		
+		depth.unbind();
+	}
 
 }

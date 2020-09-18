@@ -39,8 +39,8 @@ public class EngineSystem {
 	}
 
 	public void update(double delta) {
-		input.update();
 		game.update(delta);
+		input.update();
 	}
 
 	public void cleanUp() {

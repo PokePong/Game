@@ -13,8 +13,8 @@ public class Scenegraph extends Node {
 	public void init() {
 		if (camera == null)
 			throw new IllegalStateException("[Scenegraph] Camera is null!");
-		camera.init();
 		root.init();
+		camera.init();
 	}
 
 	public void render() {
@@ -22,13 +22,13 @@ public class Scenegraph extends Node {
 	}
 
 	public void update(double delta) {
-		camera.update(delta);
 		root.update(delta);
+		camera.update(delta);
 	}
 
 	public void cleanUp() {
-		camera.cleanUp();
 		root.cleanUp();
+		camera.cleanUp();
 	}
 
 	public Node getRoot() {

@@ -69,6 +69,11 @@ public class DeferredRendering {
 		fbo.cleanUp();
 		shader.cleanUp();
 	}
+	
+	public void resize(int width, int height) {
+		gbuffer.resize(width, height);
+		scene.resize(width, height);
+	}
 
 	public Texture2D getScene() {
 		return scene;

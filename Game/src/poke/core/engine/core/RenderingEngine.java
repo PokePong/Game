@@ -9,26 +9,22 @@ import poke.core.module.gui.GuiElement;
 import poke.core.module.gui.GuiScreen;
 import poke.core.module.gui.constraint.CenterConstraint;
 import poke.core.module.gui.constraint.RelativeConstraint;
-import poke.instance.planet.Planet;
 
 public class RenderingEngine {
 
 	private EngineSystem system;
 	private Game game;
 	private DeferredRendering deferredRendering;
-	private Planet planet;
 
 	public RenderingEngine() {
 		this.system = Engine.getInstance().getEngineSystem();
 		this.game = system.getGame();
 		this.deferredRendering = new DeferredRendering();
-		this.planet = new Planet(10f);
 	}
 
 	public void init() {
 		Default.init();
 		deferredRendering.init();
-		planet.init();
 
 		GuiScreen screen = new GuiScreen();
 		GuiElement element = new GuiElement();
@@ -48,25 +44,24 @@ public class RenderingEngine {
 	public void render() {
 		Default.clearScreen();
 
-		//deferredRendering.bind();
-		//Default.clearScreen();
-		//game.getScenegraph().render();
-		//deferredRendering.unbind();
-
-		//deferredRendering.render();
+		deferredRendering.bind();
+		Default.clearScreen();
 		game.getScenegraph().render();
-		
-		planet.update(0f);
-		planet.render();
-		
+		deferredRendering.unbind();
 
-		//game.getGui().render();
+		deferredRendering.render();
+		// game.getScenegraph().render();
+
+		game.getGui().render();
 
 	}
 
 	public void cleanUp() {
 		deferredRendering.cleanUp();
-		planet.cleanUp();
+	}
+
+	public DeferredRendering getDeferredRendering() {
+		return deferredRendering;
 	}
 
 }

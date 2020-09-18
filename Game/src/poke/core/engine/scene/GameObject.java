@@ -2,6 +2,9 @@ package poke.core.engine.scene;
 
 import java.util.HashMap;
 
+import org.joml.Vector3f;
+import org.joml.Vector4f;
+
 import poke.core.engine.gl.VBO;
 import poke.core.engine.renderer.Renderer;
 import poke.core.engine.utils.Constants;
@@ -30,10 +33,10 @@ public abstract class GameObject extends Node {
 		for (String key : components.keySet()) {
 			components.get(key).init();
 		}
-		
+
 		if (vbo == null)
 			throw new IllegalStateException("[GameObject] VBO null, cannot render this object!");
-		
+
 		if (!getComponents().containsKey(Constants.RENDERER_COMPONENT)) {
 			Renderer renderer = new Renderer(StaticShader.getInstance(), new Default());
 			renderer.setParent(this);
@@ -78,4 +81,9 @@ public abstract class GameObject extends Node {
 		this.vbo = vbo;
 	}
 
+	public Vector3f getWorldPosition(Vector3f localPosition) {
+		Vector4f temp = new Vector4f(localPosition, 1.0f).mul(getWorldTransform().getWorldMatrix());
+		return new Vector3f(temp.x, temp.y, temp.z);
+	}
+	
 }

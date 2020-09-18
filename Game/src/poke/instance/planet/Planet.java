@@ -1,30 +1,39 @@
 package poke.instance.planet;
 
+import org.joml.Vector3f;
 
+import poke.core.engine.model.Texture2D;
 import poke.core.engine.renderer.Renderer;
-import poke.core.engine.scene.GameObject;
 import poke.core.engine.utils.Constants;
 import poke.core.gl.config.NoCullFace;
+import poke.instance.CelestialBody;
+import poke.instance.planet.noise.NoiseFilter;
+import poke.instance.planet.noise.NoiseSettings;
 import poke.instance.planet.patch.PatchShader;
 import poke.instance.planet.patch.PatchVBO;
 import poke.instance.planet.triangle.Triangulator;
 
-public class Planet extends GameObject {
+public class Planet extends CelestialBody {
 
-	public float radius;
 	private Triangulator triangulator;
 	private PatchVBO patch;
+	private NoiseFilter noiseFilter;
+	private Texture2D texture;
 
-	public Planet(float radius) {
-		super();
-		this.radius = 500f;
-		this.triangulator = new Triangulator(this, 7);
+	public Planet(float radius, float mass, Vector3f incline, Vector3f rotationVelocity, Vector3f initialVelocity) {
+		super(radius, mass, incline, rotationVelocity, initialVelocity);
+		this.triangulator = new Triangulator(this, 5);
 		this.patch = new PatchVBO();
+		this.noiseFilter = new NoiseFilter(new NoiseSettings());
+
+		this.texture = Texture2D.loadTexture("", "moon.png");
+		texture.bind();
+		texture.linearFilter();
+		texture.unbind();
 	}
 
 	@Override
 	public void _init_() {
-
 		triangulator.init();
 		patch.uploadPatch(4);
 		patch.uploadData(triangulator.getPatchInstancesArray());
@@ -41,13 +50,17 @@ public class Planet extends GameObject {
 		triangulator.updateGeometry();
 		patch.uploadData(triangulator.getPatchInstancesArray());
 	}
-	
-	public float getRadius() {
-		return radius;
-	}
-	
+
 	public Triangulator getTriangulator() {
 		return triangulator;
+	}
+
+	public NoiseFilter getNoiseFilter() {
+		return noiseFilter;
+	}
+
+	public Texture2D getTexture() {
+		return texture;
 	}
 
 }

@@ -9,6 +9,8 @@ import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWScrollCallback;
 
+import poke.core.engine.core.Window;
+
 public class Input {
 
 	private static Input instance;
@@ -28,6 +30,7 @@ public class Input {
 
 	private float scrollOffSet;
 
+	private Vector2f previousCursorPosition;
 	private Vector2f cursorPosition;
 	private Vector2f displVec;
 	private Vector2f lockedCursorPosition;
@@ -50,6 +53,7 @@ public class Input {
 		this.buttonsHolding = new ArrayList<Integer>();
 		this.releasedButtons = new ArrayList<Integer>();
 
+		this.previousCursorPosition = new Vector2f();
 		this.cursorPosition = new Vector2f();
 		this.displVec = new Vector2f();
 		this.lockedCursorPosition = new Vector2f();
@@ -80,17 +84,6 @@ public class Input {
 
 			@Override
 			public void invoke(long window, int button, int action, int mods) {
-				if (button == 2 && action == GLFW.GLFW_PRESS) {
-					lockedCursorPosition = new Vector2f(cursorPosition);
-					setCursorLocked(true);
-					GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
-				}
-
-				if (button == 2 && action == GLFW.GLFW_RELEASE) {
-					GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
-					setCursorLocked(false);
-					setCursorPosition(lockedCursorPosition, window);
-				}
 				if (action == GLFW.GLFW_PRESS) {
 					if (!pushedButtons.contains(button)) {
 						pushedButtons.add(button);
@@ -108,27 +101,14 @@ public class Input {
 
 			@Override
 			public void invoke(long window, double x, double y) {
-
-				if (isCursorLocked()) {
-					double dx = x - lockedCursorPosition.x;
-					double dy = y - lockedCursorPosition.y;
-
-					boolean rotateX = dx != 0;
-					boolean rotateY = dy != 0;
-					if (rotateX) {
-						displVec.x = (float) dx;
-					}
-					if (rotateY) {
-						displVec.y = (float) dy;
-					}
-
-					setCursorPosition(lockedCursorPosition, window);
-				} else {
-					displVec.x = 0;
-					displVec.y = 0;
-					cursorPosition.x = (float) x;
-					cursorPosition.y = (float) y;
+				if (cursorLocked) {
+					setCursorPosition(lockedCursorPosition, Window.getInstance().getWindow());
 				}
+				previousCursorPosition = new Vector2f(cursorPosition);
+				cursorPosition = new Vector2f((float) x, (float) y);
+				double dx = cursorPosition.x - previousCursorPosition.x;
+				double dy = cursorPosition.y - previousCursorPosition.y;
+				displVec = new Vector2f((float) dx, (float) dy);
 			}
 		}));
 
@@ -148,6 +128,25 @@ public class Input {
 
 		pushedButtons.clear();
 		releasedButtons.clear();
+
+		if (Math.abs(displVec.x) > 0.001f || Math.abs(displVec.y) > 0.001f) {
+			displVec.mul(0.90f);
+		} else {
+			displVec = new Vector2f(0);
+		}
+		
+	}
+
+	public void lockCursor() {
+		lockedCursorPosition = new Vector2f(cursorPosition);
+		setCursorLocked(true);
+		GLFW.glfwSetInputMode(Window.getInstance().getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
+	}
+
+	public void unlockCursor() {
+		setCursorLocked(false);
+		setCursorPosition(lockedCursorPosition, Window.getInstance().getWindow());
+		GLFW.glfwSetInputMode(Window.getInstance().getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
 	}
 
 	public boolean isKeyPushed(int key) {
@@ -228,6 +227,10 @@ public class Input {
 
 	public ArrayList<Integer> getReleasedButtons() {
 		return releasedButtons;
+	}
+
+	public Vector2f getPreviousCursorPosition() {
+		return previousCursorPosition;
 	}
 
 	public Vector2f getLockedCursorPosition() {

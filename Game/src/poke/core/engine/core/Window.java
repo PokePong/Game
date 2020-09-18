@@ -79,6 +79,7 @@ public class Window {
 			GL11.glViewport(0, 0, nwidth, nheight);
 			Engine.getInstance().getEngineSystem().getGame().getScenegraph().getCamera()
 					.updateProjection(getAspectRatio());
+			Engine.getInstance().getEngineSystem().getRenderingEngine().getDeferredRendering().resize(nwidth, nheight);
 		});
 
 		GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());

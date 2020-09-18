@@ -16,6 +16,7 @@ import poke.instance.planet.patch.PatchVertex;
 
 public class Buffer {
 
+
 	public static FloatBuffer createFloatBuffer(int size) {
 		return MemoryUtil.memAllocFloat(size);
 	}

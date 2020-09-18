@@ -4,6 +4,7 @@ import java.nio.FloatBuffer;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import poke.core.engine.core.Window;
 import poke.core.engine.core.engine.Engine;
@@ -15,6 +16,7 @@ public abstract class Camera {
 
 	private Vector3f position;
 	private Vector3f rotation;
+
 	private Vector3f forward;
 	private Vector3f up;
 	private Vector3f right;
@@ -22,8 +24,8 @@ public abstract class Camera {
 	private float z_near;
 	private float z_far;
 	private float fov;
-	private Matrix4f projectionMatrix;
 
+	private Matrix4f projectionMatrix;
 	private Matrix4f viewMatrix;
 
 	private FloatBuffer buffer;
@@ -45,20 +47,14 @@ public abstract class Camera {
 		this.buffer = Buffer.createFloatBuffer(bufferSize);
 
 		_init_();
-		setView();
-		setForward();
-		setUp();
-		setRight();
+		updateVectors();
 		updateUBO();
 	}
 
 	public void update(double delta) {
 		_update_(delta);
 
-		setView();
-		setForward();
-		setUp();
-		setRight();
+		updateVectors();
 		updateUBO();
 	}
 
@@ -71,19 +67,46 @@ public abstract class Camera {
 
 	public abstract void _update_(double delta);
 
+	public void move(Vector3f offset) {
+		position.add(offset);
+	}
+	
 	public void move(Vector3f direction, float amount) {
-		Vector3f ret = position.add(direction.mul(amount));
-		this.position = ret;
+		position.add(direction.mul(amount));
+		updateVectors();
+	}
+
+	public void rotate(Vector3f direction, float angle) {
+		rotation.add(new Vector3f(direction).mul(angle));
+		updateVectors();
+	}
+
+	public void rotateAroundRight(Vector3f center, float ang) {
+		float R = center.distance(position);
+		float C = (float) (2 * R * Math.sin(Math.toRadians(ang) / 2));
+		
+		rotate(getUp(), -ang/2);
+		move(getRight(), C);
+		rotate(getUp(), -ang/2);
+	}
+	
+	public void rotateAroundUp(Vector3f center, float ang) {
+		float R = center.distance(position);
+		float C = (float) (2 * R * Math.sin(Math.toRadians(ang) / 2));
+		
+		rotate(getRight(), ang/2);
+		move(getUp(), C);
+		rotate(getRight(), ang/2);
 	}
 
 	public void rotateX(float angle) {
-		Vector3f ret = rotation.add(new Vector3f(0, 1, 0).mul(angle));
-		this.rotation = ret;
+		rotation.add(new Vector3f(0, 1, 0).mul(angle));
+		updateVectors();
 	}
 
 	public void rotateY(float angle) {
-		Vector3f ret = rotation.add(new Vector3f(1, 0, 0).mul(angle));
-		this.rotation = ret;
+		rotation.add(new Vector3f(1, 0, 0).mul(angle));
+		updateVectors();
 	}
 
 	private void updateUBO() {
@@ -108,6 +131,13 @@ public abstract class Camera {
 		Matrix4f ret = new Matrix4f().identity();
 		ret.perspective(fov, aspectRatio, z_near, z_far);
 		this.projectionMatrix = ret;
+	}
+
+	private void updateVectors() {
+		setView();
+		setForward();
+		setUp();
+		setRight();
 	}
 
 	private void setView() {
@@ -144,6 +174,11 @@ public abstract class Camera {
 		ret.y = viewMatrix.m10();
 		ret.z = viewMatrix.m20();
 		this.right = ret;
+	}
+	
+	public Vector3f getPositionFrom(GameObject object){
+		Vector3f ret = new Vector3f(position).mul(2f).add(new Vector3f(object.getWorldPosition(position)).mul(-1f));
+		return ret;
 	}
 
 	public Matrix4f getViewProjectionMatrix() {

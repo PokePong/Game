@@ -55,7 +55,7 @@ void main() {
 	}
 	lighting *= albedo;
 
-	vec4 pixel = vec4(lighting, 1);
+	vec4 pixel = vec4(albedo, 1);
 	imageStore(img_output, coords, pixel);
 
 }

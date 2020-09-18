@@ -16,9 +16,9 @@ public class Lampe extends GameObject {
 		setVbo(new PointVBO());
 		PointLight light = new PointLight();
 		light.setDiffuse(Color4f.WHITE);
-		light.setAttenuation(new Vector3f(1f, 0.1f, 0.05f));
-		light.setIntensity(1f);
-		getWorldTransform().setTranslation(new Vector3f(0, 0, 0));
+		light.setAttenuation(new Vector3f(1f, 1f, 1f));
+		light.setIntensity(10f);
+		getWorldTransform().setTranslation(new Vector3f(55, 0, 0));
 		addComponent(Constants.LIGHT_COMPONENT0, light);
 	}
 

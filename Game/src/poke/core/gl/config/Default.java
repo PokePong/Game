@@ -37,12 +37,12 @@ public class Default implements RenderConfig {
 
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_TEXTURE_2D);
-		glEnable(GL_FRAMEBUFFER_SRGB);
+		//glEnable(GL_FRAMEBUFFER_SRGB);
 		//glEnable(32925);
 	}
 
 	public static void clearScreen() {
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(2/255f, 2/255f, 25/255f, 1.0f);
 		glClearDepth(1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}

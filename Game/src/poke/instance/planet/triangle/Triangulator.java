@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import poke.core.engine.core.Window;
-import poke.instance.GameCamera;
+import poke.instance.camera.GameCamera;
 import poke.instance.planet.Planet;
 import poke.instance.planet.patch.PatchInstance;
 
@@ -46,9 +47,8 @@ public class Triangulator {
 
 		float frac = (float) Math.tan(Math.toRadians(allowedTriPx * GameCamera.getInstance().getFov() / Window.width));
 		for (int i = 0; i < maxLevel; i++) {
-			distanceLUT[i] = (triLevelSize[i] / frac) * planet.radius;
+			distanceLUT[i] = (triLevelSize[i] / frac) * planet.getRadius();
 		}
-		
 
 	}
 
@@ -67,7 +67,6 @@ public class Triangulator {
 	private void buildTriangle(Vector3f a, Vector3f b, Vector3f c, int level) {
 		boolean sub = subdivision(a, b, c, level);
 		if (sub) {
-
 			Vector3f A = new Vector3f(b).add(new Vector3f(c)).mul(0.5f);
 			Vector3f B = new Vector3f(c).add(new Vector3f(a)).mul(0.5f);
 			Vector3f C = new Vector3f(a).add(new Vector3f(b)).mul(0.5f);
@@ -78,9 +77,9 @@ public class Triangulator {
 			buildTriangle(A, B, c, nextLevel);
 			buildTriangle(A, B, C, nextLevel);
 		} else {
-			Vector3f A = new Vector3f(a).normalize().mul(planet.radius);
-			Vector3f B = new Vector3f(b).normalize().mul(planet.radius);
-			Vector3f C = new Vector3f(c).normalize().mul(planet.radius);
+			Vector3f A = new Vector3f(a).normalize().mul(planet.getRadius());
+			Vector3f B = new Vector3f(b).normalize().mul(planet.getRadius());
+			Vector3f C = new Vector3f(c).normalize().mul(planet.getRadius());
 
 			Vector3f R = new Vector3f(B).add(new Vector3f(A).mul(-1f));
 			Vector3f S = new Vector3f(C).add(new Vector3f(A).mul(-1f));
@@ -92,16 +91,26 @@ public class Triangulator {
 	private boolean subdivision(Vector3f a, Vector3f b, Vector3f c, int level) {
 		if (level == maxLevel)
 			return false;
-		Vector3f A = new Vector3f(a).normalize().mul(planet.radius);
-		Vector3f B = new Vector3f(b).normalize().mul(planet.radius);
-		Vector3f C = new Vector3f(c).normalize().mul(planet.radius);
+
+		Vector3f A = new Vector3f(a);
+		Vector3f B = new Vector3f(b);
+		Vector3f C = new Vector3f(c);
 		Vector3f center = new Vector3f(A).add(new Vector3f(B)).add(new Vector3f(C));
 		center.div(3f);
-		float distance = center.distance(GameCamera.getInstance().getPosition());
+		center.normalize();
+		center.mul(planet.getRadius());
+
+		Vector3f worldPos = planet.getWorldPosition(center);
+		Vector3f camPos = GameCamera.getInstance().getPosition();
+
+		float distance = worldPos.distance(camPos);
+		
+
 		if (distance < distanceLUT[level])
 			return true;
 		return false;
 	}
+	
 
 	public Planet getPlanet() {
 		return planet;
@@ -118,7 +127,7 @@ public class Triangulator {
 	public PatchInstance[] getPatchInstancesArray() {
 		return patchInstancesArray;
 	}
-	
+
 	public float[] getDistanceLUT() {
 		return distanceLUT;
 	}
