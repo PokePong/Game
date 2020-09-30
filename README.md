@@ -10,7 +10,7 @@ Right now, I'm focus on the planetary rendering.
 
 
 #### Features
-- Engine
-- [x] Finish my changes
-- [ ] Push my commits to GitHub
-- [ ] Open a pull request
+  - Engine
+    - [x] Finish my changes
+    - [ ] Push my commits to GitHub
+    - [ ] Open a pull request
